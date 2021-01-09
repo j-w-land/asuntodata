@@ -1,25 +1,25 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import Table from './Table.js';
 
 function App() {
+
+  fetch('53850.json', { headers : {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    }
+  }).then(response => response.json());
+
   return (
-    <div className="kauppahinnat.fi">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+      <div className="App">
+        <ul id="Navbar">
+          <li><h3>Kauppahinnat.fi</h3></li>
+        </ul>
+
+        <br />
+        <Table />>
+      </div>
+    );
+  }
 
 export default App;

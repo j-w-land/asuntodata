@@ -36,3 +36,25 @@
     transform: rotate(360deg);
   }
 }
+
+/* Navbar */
+
+#Navbar {
+  background-color: black;
+  height: 50px;
+  vertical-align: middle;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#Navbar > li {
+  display: block;
+  color: white;
+  padding: 9px 17px;
+  text-decoration: none;
+}
+#Navbar > li a:hover {
+    background-color: grey;
+    color: black;
+}
