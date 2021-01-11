@@ -27,23 +27,23 @@ export default function Home() {
       <h1 style={{ paddingTop: "50px" }}>Kauppahinnat.fi</h1>
       <h3 style={{ paddingBottom: "50px" }}>Dataa asuntojen hinnoista</h3>
 
-      <ul>
-        {transactionsByRegion.map((e) => (
-          <li key={e.place}>
-            {e.place}: {e.data.length} kpl
-          </li>
-        ))}
-      </ul>
+      {transactionsByRegion.map((e) => (
+        <div key={e.place}>
+          {e.place}: {e.data.length} kpl
+        </div>
+      ))}
 
-      <div style={{ height: "300px", padding: "30px" }}>
-        <div style={{ maxHeight: "100%", width: "33%", overflowY: "scroll" }}>
+      <div style={{ height: "300px", margin: "30px" }}>
+        <div style={{ maxHeight: "300px", width: "33%" }}>
           <h6>Kauppamäärät kaupungeittain</h6>
-          {transactionsByCity.map((e) => (
-            <div onClick={onClickHandler} key={e.place}>
-              <Link to={`kaupunki/${e.place}`}> {e.place}: </Link>{" "}
-              {e.data.length}
-            </div>
-          ))}
+          <div style={{ maxHeight: "280px", overflowY: "scroll" }}>
+            {transactionsByCity.map((e) => (
+              <div onClick={onClickHandler} key={e.place}>
+                <Link to={`kaupunki/${e.place}`}> {e.place}: </Link>{" "}
+                {e.data.length}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
