@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import data_all_transactions from "../../assets/data/data_all_transactions.json";
 import zipCodeStructure from "../../assets/data/zipCodeStructure.json";
@@ -6,7 +7,11 @@ import getData from "../../setUp/dataSetUp";
 export default function Home() {
   const cityList = getData("cityList");
   const zipsByCity = getData("zipsByCity");
-  const transactionsByRegion = getData("transactionsByRegion");
+  const [transactionsByRegion, setTransactionsByRegion] = useState([]);
+
+  useEffect(() => {
+    setTransactionsByRegion(getData("transactionsByRegion"));
+  }, []);
 
   console.log("transactionsByRegion");
   console.log(transactionsByRegion);
