@@ -8,9 +8,15 @@ export default function Home() {
   const cityList = getData("cityList");
   const zipsByCity = getData("zipsByCity");
   const [transactionsByRegion, setTransactionsByRegion] = useState([]);
+  const [transactionsByCity, setTransactionsByCity] = useState([]);
+
+  const onClickHandler = (e) => {
+    console.log(e);
+  };
 
   useEffect(() => {
     setTransactionsByRegion(getData("transactionsByRegion"));
+    setTransactionsByCity(getData("transactionsByCity"));
   }, []);
 
   console.log("transactionsByRegion");
@@ -28,6 +34,18 @@ export default function Home() {
           </li>
         ))}
       </ul>
+
+      <div style={{ height: "300px", padding: "30px" }}>
+        <div style={{ maxHeight: "100%", width: "33%", overflowY: "scroll" }}>
+          <h6>Kauppamäärät kaupungeittain</h6>
+          {transactionsByCity.map((e) => (
+            <div onClick={onClickHandler} key={e.place}>
+              <Link to={`kaupunki/${e.place}`}> {e.place}: </Link>{" "}
+              {e.data.length}
+            </div>
+          ))}
+        </div>
+      </div>
 
       {/* <div>
         <h3>Linkit näkymiin:</h3>
