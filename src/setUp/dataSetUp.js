@@ -1,7 +1,7 @@
 import data_all_transactions from "../assets/data/data_all_transactions.json";
 import zipCodeStructure from "../assets/data/zipCodeStructure.json";
 
-/* 
+/*
 
 Dataa filteröitynä käytettäväksi komponenteissa...
 
@@ -40,7 +40,7 @@ const zipsByCity = () => {
 
   for (const item in cityListData) {
     let matches = zipCodeStructureData.filter(
-      (e) => e.kaupunki == cityListData[item]
+      (e) => e.kaupunki === cityListData[item]
     );
     list.push({ place: cityListData[item], data: matches });
   }
@@ -55,7 +55,7 @@ const zipsByRegion = () => {
 
   for (const item in regionListData) {
     let matches = zipCodeStructureData.filter(
-      (e) => e.maakunta == regionListData[item]
+      (e) => e.maakunta === regionListData[item]
     );
     list.push({ place: regionListData[item], data: matches });
   }
@@ -72,7 +72,7 @@ const transactionsByCity = () => {
     let matchesRes = [];
     for (const element in dataElement) {
       let matches = data_all_transactions.filter(
-        (e) => e.postinumero == dataElement[element].postinumero
+        (e) => e.postinumero === dataElement[element].postinumero
       );
       for (const match in matches) {
         matchesRes.push(matches[match]);
@@ -96,7 +96,7 @@ const transactionsByRegion = () => {
     let matchesRes = [];
     for (const element in dataElement) {
       let matches = data_all_transactions.filter(
-        (e) => e.postinumero == dataElement[element].postinumero
+        (e) => e.postinumero === dataElement[element].postinumero
       );
       for (const match in matches) {
         matchesRes.push(matches[match]);
@@ -113,10 +113,10 @@ const transactionsByRegion = () => {
 export function initData() {}
 
 export default function getData(structure) {
-  if (structure == "cityList") return cityList();
-  if (structure == "regionList") return regionList();
-  if (structure == "zipsByCity") return zipsByCity();
-  if (structure == "zipsByRegion") return zipsByRegion();
-  if (structure == "transactionsByCity") return transactionsByCity();
-  if (structure == "transactionsByRegion") return transactionsByRegion();
+  if (structure === "cityList") return cityList();
+  if (structure === "regionList") return regionList();
+  if (structure === "zipsByCity") return zipsByCity();
+  if (structure === "zipsByRegion") return zipsByRegion();
+  if (structure === "transactionsByCity") return transactionsByCity();
+  if (structure === "transactionsByRegion") return transactionsByRegion();
 }
