@@ -3,65 +3,105 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import data_all_transactions from "../../assets/data/data_all_transactions.json";
 import zipCodeStructure from "../../assets/data/zipCodeStructure.json";
 import getData from "../../setUp/dataSetUp";
+import Grid from "./Grid";
+import InfoView from "./InfoView";
 
 export default function Home() {
   const cityList = getData("cityList");
   const zipsByCity = getData("zipsByCity");
   const [transactionsByRegion, setTransactionsByRegion] = useState([]);
   const [transactionsByCity, setTransactionsByCity] = useState([]);
+  const [summaryByRegion, setsummaryByRegion] = useState([]);
+  const [regionInfoActive, setRegionInfoActive] = useState("Alue");
 
   const onClickHandler = (e) => {
-    console.log(e);
+    setRegionInfoActive(e.target.id);
   };
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log("DATAFETCHED_START");
       let res = await getData("transactionsByCity");
       setTransactionsByCity(res);
       let res2 = await getData("transactionsByRegion");
       setTransactionsByRegion(res2);
 
+      let res3 = await getData("summaryByArea", { type: "region" });
+
+      setsummaryByRegion(res3);
+
       setLoading(false);
-      console.log("DATAFETCHED___RES");
     };
     setLoading(true);
     fetchData();
-
-    console.log("DATAFETCHED");
   }, []);
 
-  console.log("transactionsByRegion");
-  console.log(transactionsByRegion);
-
-  console.log("RETURN_START");
   return (
     <div>
       <h1 style={{ paddingTop: "50px" }}>Kauppahinnat.fi</h1>
       <h3 style={{ paddingBottom: "50px" }}>Dataa asuntojen hinnoista</h3>
 
-      {console.log("loading: " + loading)}
-      {loading == false ? (
-        <div>
-          {transactionsByRegion.map((e) => (
-            <div key={e.place}>
-              {e.place}: {e.data.length} kpl
+      <div className="flex-container">
+        <div style={{ width: "50%" }}>
+          <h5
+            style={
+              {
+                /* width: "50%" */
+              }
+            }
+          >
+            Tilastoja maakunnittain
+          </h5>
+          {loading == false ? (
+            <Grid
+              data={summaryByRegion}
+              width="100%"
+              onClick={onClickHandler}
+            />
+          ) : (
+            <div
+              style={{
+                height: "400px",
+                alignContent: "center",
+                verticalAlign: "center",
+              }}
+            >
+              {" "}
+              ladataan...{" "}
             </div>
-          ))}
+          )}
         </div>
-      ) : (
-        <div
-          style={{
-            height: "400px",
-            alignContent: "center",
-            verticalAlign: "center",
-          }}
-        >
-          {" "}
-          ladataan...{" "}
+
+        <div style={{ width: "50%" }}>
+          <h5
+            style={
+              {
+                /* width: "50%"  */
+              }
+            }
+          >
+            {regionInfoActive}
+          </h5>
+          {loading == false ? (
+            <InfoView
+              data={summaryByRegion}
+              name={regionInfoActive}
+              width="100%"
+            />
+          ) : (
+            <div
+              style={{
+                height: "400px",
+                alignContent: "center",
+                verticalAlign: "center",
+              }}
+            >
+              {" "}
+              ladataan...{" "}
+            </div>
+          )}
         </div>
-      )}
+      </div>
 
       <div style={{ height: "300px", margin: "30px" }}>
         <div style={{ maxHeight: "300px", width: "33%" }}>
