@@ -36,8 +36,6 @@ function App() {
             <Home />
           </Route>
         </Switch>
-
-        <Table />
       </div>
     </Router>
   );
