@@ -112,7 +112,7 @@ const transactionsByRegion = () => {
 // alusta data aluksi ja tallenna muuttujiin niin ei tarvii suorittaa monta kertaa samaa toimintoa..?
 export function initData() {}
 
-export default function getData(structure) {
+export default async function getData(structure) {
   if (structure == "cityList") return cityList();
   if (structure == "regionList") return regionList();
   if (structure == "zipsByCity") return zipsByCity();

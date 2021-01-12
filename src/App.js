@@ -17,8 +17,8 @@ function App() {
   }).then((response) => response.json());
 
   return (
-    <Router basename="/">
-      <div className="App">
+    <div className="App">
+      <Router basename="/">
         <Header />
 
         <Switch>
@@ -36,8 +36,8 @@ function App() {
             <Home />
           </Route>
         </Switch>
-      </div>
-    </Router>
+      </Router>
+    </div>
   );
 }
 

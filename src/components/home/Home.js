@@ -13,25 +13,55 @@ export default function Home() {
   const onClickHandler = (e) => {
     console.log(e);
   };
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setTransactionsByRegion(getData("transactionsByRegion"));
-    setTransactionsByCity(getData("transactionsByCity"));
+    const fetchData = async () => {
+      console.log("DATAFETCHED_START");
+      let res = await getData("transactionsByCity");
+      setTransactionsByCity(res);
+      let res2 = await getData("transactionsByRegion");
+      setTransactionsByRegion(res2);
+
+      setLoading(false);
+      console.log("DATAFETCHED___RES");
+    };
+    setLoading(true);
+    fetchData();
+
+    console.log("DATAFETCHED");
   }, []);
 
   console.log("transactionsByRegion");
   console.log(transactionsByRegion);
 
+  console.log("RETURN_START");
   return (
     <div>
       <h1 style={{ paddingTop: "50px" }}>Kauppahinnat.fi</h1>
       <h3 style={{ paddingBottom: "50px" }}>Dataa asuntojen hinnoista</h3>
 
-      {transactionsByRegion.map((e) => (
-        <div key={e.place}>
-          {e.place}: {e.data.length} kpl
+      {console.log("loading: " + loading)}
+      {loading == false ? (
+        <div>
+          {transactionsByRegion.map((e) => (
+            <div key={e.place}>
+              {e.place}: {e.data.length} kpl
+            </div>
+          ))}
         </div>
-      ))}
+      ) : (
+        <div
+          style={{
+            height: "400px",
+            alignContent: "center",
+            verticalAlign: "center",
+          }}
+        >
+          {" "}
+          ladataan...{" "}
+        </div>
+      )}
 
       <div style={{ height: "300px", margin: "30px" }}>
         <div style={{ maxHeight: "300px", width: "33%" }}>
