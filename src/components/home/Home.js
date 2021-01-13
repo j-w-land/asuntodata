@@ -7,13 +7,6 @@ import data_all_transactions from "../../assets/data/data_all_transactions.json"
 import zipCodeStructure from "../../assets/data/zipCodeStructure.json";
 
 export default function Home({ transactionsByCity, summaryByRegion }) {
-  // let cityList = props.cityList;
-  // let zipsByCity = props.zipsByCity;
-  // let transactionsByCity = props.transactionsByCity;
-  // let summaryByRegion = props.summaryByRegion;
-  // let transactionsByRegion = props.transactionsByRegion;
-  // const [regionInfoActive, setRegionInfoActive] = props.regionInfoActive;
-  // const [loading, setLoading] = useState(true);
 
   // TODO: Siirrä datan haku App.js:ään ja tuo propseissa mitä tarvii tällä sivulla
   // Tällä hetkellä osa datasta haetaan Sekä App.js:ssä että täällä, joten datan haussa kestää hetki
@@ -120,10 +113,6 @@ export default function Home({ transactionsByCity, summaryByRegion }) {
             {transactionsByCity.map((e) => (
               <div onClick={onClickHandler} key={e.place}>
                 <Link to={`kaupunki/${e.place}`}> {e.place}: </Link>{" "}
-                {/* <Link to={{ pathname: `kaupunki/${e.place}`, state: { key: e.place} }}>
-                  {e.place}
-                </Link>
-                {": "}*/}
                 {e.data.length}
               </div>
             ))}

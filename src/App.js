@@ -16,12 +16,12 @@ function App() {
 
   useEffect(() => {
     getData("transactionsByCity")
-      .then((loadedPosts) => {
-        setTransactionsByCity(loadedPosts);
+      .then((transactions) => {
+        setTransactionsByCity(transactions);
       })
       .then(
-        getData("summaryByArea", { type: "region" }).then((loadedPosts) => {
-          setsummaryByRegion(loadedPosts);
+        getData("summaryByArea", { type: "region" }).then((summaries) => {
+          setsummaryByRegion(summaries);
           setLoading(false);
         })
       );
@@ -41,7 +41,6 @@ function App() {
             <ZipView />
           </Route>
           <Route path="/kaupunki/:city">
-            {/****** Todo: vaihda kovakoodattu parametri dynaamiseen  ******/}
             <CityView cityData={transactionsByCity} />
           </Route>
           <Route path="/kaupunginosa/:district">

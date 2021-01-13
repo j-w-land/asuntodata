@@ -13,6 +13,7 @@ export default function CitytView(props) {
     })
   }
 
+  // Vilkuiltu täältä mallia: https://www.freakyjolly.com/react-table-tutorial/
   function Table(props) {
     const data = props.sales;
     
