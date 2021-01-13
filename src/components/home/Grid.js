@@ -13,6 +13,7 @@ export default function Grid({ data, width, onClick }) {
             className="flex-item-home"
             key={e.place}
             id={e.place}
+            style={{ cursor: "pointer" }}
           >
             <span style={{ pointerEvents: "none" }} className="title">
               {" "}
@@ -38,8 +39,8 @@ export default function Grid({ data, width, onClick }) {
               Keskikoko:{" "}
               {typeof e.data.pintaAla.avg !== "number"
                 ? "-"
-                : e.data.pintaAla.avg.toFixed(0)}{" "}
-              €/m2
+                : e.data.pintaAla.avg.toFixed(0)}
+              m2
             </span>{" "}
             <br />
           </div>
