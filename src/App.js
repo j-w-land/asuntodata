@@ -23,13 +23,6 @@ function App() {
   if (loading) {
     return "Ladataan tietoja...";
   }
-
-  // Haetaan listalta oikean kaupungin tiedot
-  function findCityData(array, value) {
-    return array.find((element) => {
-      return element.place === value;
-    })
-  }
   
   return (
     <div className="App">
@@ -42,7 +35,7 @@ function App() {
           </Route>
           <Route path="/kaupunki/:city">
             {/****** Todo: vaihda kovakoodattu parametri dynaamiseen  ******/}
-            <CityView cityData={findCityData(transactionsByCity, "Akaa").data}/>
+            <CityView cityData={transactionsByCity}/>
           </Route>
           <Route path="/kaupunginosa/:district">
             <DistrictView />

@@ -4,7 +4,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function CitytView(props) {
   let { city } = useParams();
-  let Sales = props.cityData;
+  let Sales = findCityData(props.cityData, city).data;
+
+   // Haetaan listalta oikean kaupungin tiedot
+   function findCityData(array, value) {
+    return array.find((element) => {
+      return element.place === value;
+    })
+  }
 
   function Table(props) {
     const data = props.sales;
