@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 
 export default function Grid({ data, width, onClick }) {
   console.log("Grid");

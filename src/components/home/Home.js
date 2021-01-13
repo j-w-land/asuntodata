@@ -1,23 +1,34 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import data_all_transactions from "../../assets/data/data_all_transactions.json";
-import zipCodeStructure from "../../assets/data/zipCodeStructure.json";
 import getData from "../../setUp/dataSetUp";
 import Grid from "./Grid";
 import InfoView from "./InfoView";
+import data_all_transactions from "../../assets/data/data_all_transactions.json";
+import zipCodeStructure from "../../assets/data/zipCodeStructure.json";
 
-export default function Home() {
+export default function Home(props) {
+  // let cityList = props.cityList;
+  // let zipsByCity = props.zipsByCity;
+  // let transactionsByCity = props.transactionsByCity;
+  // let summaryByRegion = props.summaryByRegion;
+  // let transactionsByRegion = props.transactionsByRegion;
+  // const [regionInfoActive, setRegionInfoActive] = props.regionInfoActive;
+  // const [loading, setLoading] = useState(true);
+
+  // TODO: Siirrä datan haku App.js:ään ja tuo propseissa mitä tarvii tällä sivulla
+  // Tällä hetkellä osa datasta haetaan Sekä App.js:ssä että täällä, joten datan haussa kestää hetki
   const cityList = getData("cityList");
   const zipsByCity = getData("zipsByCity");
   const [transactionsByRegion, setTransactionsByRegion] = useState([]);
   const [transactionsByCity, setTransactionsByCity] = useState([]);
   const [summaryByRegion, setsummaryByRegion] = useState([]);
   const [regionInfoActive, setRegionInfoActive] = useState("Alue");
+  const [loading, setLoading] = useState(true);  
+  
 
   const onClickHandler = (e) => {
     setRegionInfoActive(e.target.id);
   };
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -110,6 +121,10 @@ export default function Home() {
             {transactionsByCity.map((e) => (
               <div onClick={onClickHandler} key={e.place}>
                 <Link to={`kaupunki/${e.place}`}> {e.place}: </Link>{" "}
+                {/* <Link to={{ pathname: `kaupunki/${e.place}`, state: { key: e.place} }}>
+                  {e.place}
+                </Link>
+                {": "}*/}
                 {e.data.length}
               </div>
             ))}
