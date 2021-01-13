@@ -6,7 +6,7 @@ import InfoView from "./InfoView";
 import data_all_transactions from "../../assets/data/data_all_transactions.json";
 import zipCodeStructure from "../../assets/data/zipCodeStructure.json";
 
-export default function Home(props) {
+export default function Home({ transactionsByCity, summaryByRegion }) {
   // let cityList = props.cityList;
   // let zipsByCity = props.zipsByCity;
   // let transactionsByCity = props.transactionsByCity;
@@ -20,11 +20,10 @@ export default function Home(props) {
   const cityList = getData("cityList");
   const zipsByCity = getData("zipsByCity");
   const [transactionsByRegion, setTransactionsByRegion] = useState([]);
-  const [transactionsByCity, setTransactionsByCity] = useState([]);
-  const [summaryByRegion, setsummaryByRegion] = useState([]);
+  /* const [transactionsByCity, setTransactionsByCity] = useState([]);
+  const [summaryByRegion, setsummaryByRegion] = useState([]); */
   const [regionInfoActive, setRegionInfoActive] = useState("Alue");
-  const [loading, setLoading] = useState(true);  
-  
+  const [loading, setLoading] = useState(true);
 
   const onClickHandler = (e) => {
     setRegionInfoActive(e.target.id);
@@ -32,14 +31,14 @@ export default function Home(props) {
 
   useEffect(() => {
     const fetchData = async () => {
-      let res = await getData("transactionsByCity");
+      /* let res = await getData("transactionsByCity");
       setTransactionsByCity(res);
       let res2 = await getData("transactionsByRegion");
       setTransactionsByRegion(res2);
 
       let res3 = await getData("summaryByArea", { type: "region" });
 
-      setsummaryByRegion(res3);
+      setsummaryByRegion(res3); */
 
       setLoading(false);
     };
