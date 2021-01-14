@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useTable, useFilters, useGlobalFilter, useAsyncDebounce } from 'react-table'
-import React from "react";
+import React, { useState, useEffect } from "react";
+import Grid from "../home/Grid";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function CitytView(props) {
@@ -282,7 +283,7 @@ export default function CitytView(props) {
                     <th
                     colSpan={visibleColumns.length}
                     style={{
-                        textAlign: 'middle',
+                        textAlign: 'left',
                     }}
                     >
                     <GlobalFilter
@@ -323,10 +324,49 @@ export default function CitytView(props) {
     )
   }
 
+  const [apartmentInfoActive, setApartmentInfoActive] = useState("Huonemäärä");
+
+  const onClickHandler = (e) => {
+    setApartmentInfoActive(e.target.id);
+  };
+
   return (
     <div>
       <h1 style={{ padding: "50px" }}>{city}</h1>
-      <Table sales={Sales} />
+      <div className="flex-container">
+        <div style={{ width: "100%" }}>
+            <h5>Tilastoja huonekohtaisesti</h5>
+            {/* <Grid
+                data={Sales}
+                width="100%"
+                onClick={onClickHandler}
+            /> */}
+            <div
+              style={{
+                height: "100px",
+                alignContent: "center",
+                verticalAlign: "center",
+              }}
+            >
+                Gridi tulossa tähän
+            </div>
+
+            <div style={{ width: "100%" }}>
+                <h5>{apartmentInfoActive}</h5>
+                <Table sales={Sales} />
+            </div>
+            <div
+              style={{
+                height: "100px",
+                alignContent: "center",
+                verticalAlign: "center",
+              }}
+            >
+            </div>
+        </div>
+      </div>
+
+      
     </div>
   );
 }
