@@ -1,8 +1,4 @@
-
 export default function Grid({ data, width, onClick }) {
-  console.log("Grid");
-  console.log(data);
-
   return (
     <div style={{ width: width }}>
       <ul className="flex-container">
@@ -21,24 +17,24 @@ export default function Grid({ data, width, onClick }) {
             <br />
             <span style={{ pointerEvents: "none" }}>
               {" "}
-              Myydyt: {e.data.tapahtumatYht} kpl
+              Myydyt: {e.data.kaikki.tapahtumatYht} kpl
             </span>{" "}
             <br />
             <span style={{ pointerEvents: "none" }}>
               {" "}
               Keskihinta:{" "}
-              {typeof e.data.hintaPerNelio.avg !== "number"
+              {typeof e.data.kaikki.hintaPerNelio.avg !== "number"
                 ? "-"
-                : e.data.hintaPerNelio.avg.toFixed(0)}{" "}
+                : e.data.kaikki.hintaPerNelio.avg.toFixed(0)}{" "}
               €/m2
             </span>{" "}
             <br />
             <span style={{ pointerEvents: "none" }}>
               {" "}
               Keskikoko:{" "}
-              {typeof e.data.pintaAla.avg !== "number"
+              {typeof e.data.kaikki.pintaAla.avg !== "number"
                 ? "-"
-                : e.data.pintaAla.avg.toFixed(0)}
+                : e.data.kaikki.pintaAla.avg.toFixed(0)}
               m2
             </span>{" "}
             <br />
