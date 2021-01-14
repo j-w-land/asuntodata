@@ -82,7 +82,7 @@ export default function Home({ transactionsByCity, summaryByRegion }) {
           {loading == false ? (
             <InfoView
               data={summaryByRegion}
-              name={regionInfoActive}
+              area={regionInfoActive}
               width="100%"
             />
           ) : (

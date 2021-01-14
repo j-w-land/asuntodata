@@ -204,8 +204,8 @@ const summaryByArea = async (params) => {
         if (listItemElement.length === 0) continue;
 
         let total = 0;
-        let min = Math.min.apply(Math, listItemElement);
-        let max = Math.max.apply(Math, listItemElement);
+        let min = Math.min.apply(Math, listItemElement).toFixed(0);
+        let max = Math.max.apply(Math, listItemElement).toFixed(0);
         let average = 0;
 
         for (const value in listItemElement) {
@@ -215,7 +215,7 @@ const summaryByArea = async (params) => {
 
         summaryObj[property]["min"] = min;
         summaryObj[property]["max"] = max;
-        summaryObj[property]["avg"] = average;
+        summaryObj[property]["avg"] = average.toFixed(0);
       }
       summaryObj["tapahtumatYht"] =
         list[item]["data"][roomSize]["velatonHinta"].length;
