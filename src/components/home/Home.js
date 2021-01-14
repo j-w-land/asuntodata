@@ -3,15 +3,12 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import getData from "../../setUp/dataSetUp";
 import Grid from "./Grid";
 import InfoView from "./InfoView";
-import data_all_transactions from "../../assets/data/data_all_transactions.json";
-import zipCodeStructure from "../../assets/data/zipCodeStructure.json";
 
 export default function Home({ transactionsByCity, summaryByRegion }) {
-
   // TODO: Siirrä datan haku App.js:ään ja tuo propseissa mitä tarvii tällä sivulla
   // Tällä hetkellä osa datasta haetaan Sekä App.js:ssä että täällä, joten datan haussa kestää hetki
-  const cityList = getData("cityList");
-  const zipsByCity = getData("zipsByCity");
+  //const cityList = getData("cityList");
+  //const zipsByCity = getData("zipsByCity");
   const [transactionsByRegion, setTransactionsByRegion] = useState([]);
   /* const [transactionsByCity, setTransactionsByCity] = useState([]);
   const [summaryByRegion, setsummaryByRegion] = useState([]); */
@@ -24,20 +21,17 @@ export default function Home({ transactionsByCity, summaryByRegion }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      /* let res = await getData("transactionsByCity");
-      setTransactionsByCity(res);
       let res2 = await getData("transactionsByRegion");
       setTransactionsByRegion(res2);
-
-      let res3 = await getData("summaryByArea", { type: "region" });
-
-      setsummaryByRegion(res3); */
 
       setLoading(false);
     };
     setLoading(true);
     fetchData();
   }, []);
+
+  console.log("summaryByRegion____");
+  console.log(summaryByRegion);
 
   return (
     <div>
