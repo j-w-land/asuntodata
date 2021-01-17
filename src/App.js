@@ -28,22 +28,23 @@ function App() {
     <div className="App">
       <Router basename="/">
         <Header />
+        <div className="site-container">
+          <Switch>
+            <Route path="/postinumero/:zip">
+              <ZipView />
+            </Route>
+            <Route path="/kaupunki/:city">
+              <CityView cityData={transactionsByCity} />
+            </Route>
+            <Route path="/kaupunginosa/:district">
+              <DistrictView />
+            </Route>
 
-        <Switch>
-          <Route path="/postinumero/:zip">
-            <ZipView />
-          </Route>
-          <Route path="/kaupunki/:city">
-            <CityView cityData={transactionsByCity} />
-          </Route>
-          <Route path="/kaupunginosa/:district">
-            <DistrictView />
-          </Route>
-
-          <Route path="/">
-            <Home transactionsByCity={transactionsByCity} />
-          </Route>
-        </Switch>
+            <Route path="/">
+              <Home transactionsByCity={transactionsByCity} />
+            </Route>
+          </Switch>
+        </div>
       </Router>
     </div>
   );
