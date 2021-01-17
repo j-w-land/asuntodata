@@ -5,7 +5,9 @@ export default function Grid({ data, width, onClick }) {
         {data.map((e) => (
           <div
             onClick={onClick}
-            className="flex-item-home"
+            className={"flex-item-home"}
+            //className={e.place}
+            //className={"flex-item-home"}
             key={e.place}
             id={e.place}
             style={{ cursor: "pointer" }}
@@ -22,19 +24,12 @@ export default function Grid({ data, width, onClick }) {
             <br />
             <span style={{ pointerEvents: "none" }}>
               {" "}
-              Keskihinta:{" "}
-              {typeof e.data.kaikki.hintaPerNelio.avg !== "number"
-                ? "-"
-                : e.data.kaikki.hintaPerNelio.avg}{" "}
-              €/m2
+              Keskihinta: {e.data.kaikki.hintaPerNelio.avg}/m2
             </span>{" "}
             <br />
             <span style={{ pointerEvents: "none" }}>
               {" "}
-              Keskikoko:{" "}
-              {typeof e.data.kaikki.pintaAla.avg !== "number"
-                ? "-"
-                : e.data.kaikki.pintaAla.avg}
+              Keskikoko: {e.data.kaikki.pintaAla.avg}
               m2
             </span>{" "}
             <br />

@@ -10,7 +10,7 @@ export default function Home({ transactionsByCity }) {
    */
 
   const [summaryData, setsummaryData] = useState([]);
-  const [regionInfoActive, setRegionInfoActive] = useState("Alue");
+  const [regionInfoActive, setRegionInfoActive] = useState("Suomi");
   const [loading, setLoading] = useState(true);
 
   const onClickHandler = (e) => {
@@ -30,15 +30,14 @@ export default function Home({ transactionsByCity }) {
         type: "region",
       });
 
+      //poista huonelukumaara tilasto, koska ei tarpeen esittää InfoViewssä
+
       setsummaryData([...res_summaryByAreaCountry, ...res_summaryByAreaRegion]);
       setLoading(false);
     };
     setLoading(true);
     fetchData();
   }, []);
-
-  console.log(summaryData);
-  console.log("summaryData________");
 
   return (
     <div>

@@ -48,3 +48,42 @@
   font-size: 1.1em;
   font-weight: bold;
 }
+
+.flex-item-home#Suomi {
+  font-weight: bold;
+  background: rgb(34, 64, 104);
+}
+
+.infoViewTable {
+  padding-left: 10px;
+  border-collapse: collapse;
+}
+
+.infoViewTable > tbody {
+  border-width: 3px;
+  border-style: groove;
+  border-color: rgb(124, 77, 77);
+}
+
+.infoViewTable .regionInfoViewTableRow_Title > td {
+  text-align: left;
+  padding-left: 4px;
+  padding-bottom: 5px;
+
+  /*  background-color: rgb(231, 231, 231); */
+  color: rgb(124, 77, 77);
+}
+
+.infoViewTable > tbody > tr {
+  padding-top: 5px;
+  margin-top: 5px;
+}
+
+.infoViewTable > tbody > tr > td {
+  padding-top: 5px;
+  margin-top: 5px;
+}
+
+.infoViewTable .regionInfoViewTableRow_Title {
+  margin-bottom: 10px;
+}

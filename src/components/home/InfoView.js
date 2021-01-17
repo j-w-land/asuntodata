@@ -1,10 +1,6 @@
 import { useState, useEffect } from "react";
 
 export default function InfoView({ area, data, width }) {
-  console.log("InfoView___");
-  console.log(data);
-  console.log(area);
-
   const headers = ["", "Yksiöt", "Kaksiot", "Kolmiot", "4h+", "kaikki"];
 
   const [rows, setRows] = useState([]);
@@ -12,23 +8,16 @@ export default function InfoView({ area, data, width }) {
   useEffect(() => {
     let areaData = data.filter((d) => d.place == area);
 
-    console.log("areaData");
-    console.log(areaData);
-
     if (areaData.length == 0) {
       return null;
     }
     let tableData = areaData[0].data;
-    console.log("tableData");
-    console.log(tableData);
 
     let rowNames = [];
     Object.keys(tableData["kaikki"]).map(function (item) {
       rowNames.push(item);
     });
 
-    console.log(rowNames);
-    console.log("rowNames");
     let rows = [];
 
     for (const rowName in rowNames) {
@@ -38,54 +27,95 @@ export default function InfoView({ area, data, width }) {
       });
     }
 
-    console.log(rows);
-    console.log("rows__________________");
     setRows(rows);
   }, [area]);
 
   return (
     <div style={{ width: width }}>
-      <br />
-      <table style={{ width: "100%" }}>
+      <table className="infoViewTable" style={{ width: "100%" }}>
         <thead>
-          <tr>
-            {headers.map((header) => (
-              <th key={"regionInfoViewHeader" + header}>{header}</th>
+          <tr key={"InfoViewHeader_header_tr"}>
+            {headers.map((header, ind) => (
+              <th key={"InfoViewHeader" + ind + "-" + header}>{header}</th>
             ))}
           </tr>
         </thead>
-        <tbody>
-          {rows.map((row, rowIndex) => {
-            console.log(row);
-            return (
-              <tr key={"regionInfoViewTableRow_" + rowIndex}>
+        {rows.map((row, rowIndex) => {
+          return (
+            <tbody key={"InfoViewHeader_tbody-" + rowIndex}>
+              <tr
+                className="regionInfoViewTableRow_Title"
+                key={"regionInfoViewTableRow_Title" + rowIndex}
+              >
+                <td
+                  colSpan={headers.length}
+                  key={"InfoViewTableRow_Title_TD" + rowIndex}
+                >
+                  {row[0]}
+                </td>
+              </tr>
+              <tr key={"InfoViewTableRow_RowNames" + rowIndex}>
                 {row.map((r, rIndex) =>
-                  //First item is row name -> return row name
+                  //First item is row name -> return row name and min/avg/max rows
                   rIndex == 0 ? (
-                    <td
-                      key={"regionInfoViewTableRow_" + rowIndex + "_" + rIndex}
-                    >
-                      {r}
+                    <td key={"InfoViewTableRow_" + rowIndex + "_" + rIndex}>
+                      <div
+                        key={"InfoViewTableRow_div" + rowIndex + "_" + rIndex}
+                      >
+                        {/* <p> */} {/* {r} <br /> */}
+                        {typeof row[1] === "object"
+                          ? Object.keys(row[1]).map((key, index) => {
+                              return (
+                                <p
+                                  key={
+                                    "InfoViewTableRow_name_p" +
+                                    rowIndex +
+                                    key +
+                                    rIndex +
+                                    index
+                                  }
+                                  style={{ lineHeight: "0" }}
+                                >
+                                  {key}
+                                </p>
+                              );
+                            })
+                          : "määrä"}
+                        {/*  </p> */}
+                      </div>
                     </td>
                   ) : (
                     // remaining items include data -> loop min, avg, and max values:
-                    <td
-                      key={"regionInfoViewTableRow_" + rowIndex + "_" + rIndex}
-                    >
-                      <div>
-                        {r.min != undefined ? r.min : ""}
-                        <br />
-                        {r.avg != undefined ? r.avg : r}
-                        <br />
-                        {r.max != undefined ? r.max : ""}
+                    <td key={"InfoViewTableRow_" + rowIndex + "_" + rIndex}>
+                      <div
+                        key={"InfoViewTableRow_div" + rowIndex + "_" + rIndex}
+                      >
+                        {typeof r === "object"
+                          ? Object.keys(r).map((key, index) => {
+                              return (
+                                <p
+                                  key={
+                                    "InfoViewTableRow_val_p" +
+                                    rowIndex +
+                                    rIndex +
+                                    key +
+                                    index
+                                  }
+                                  style={{ lineHeight: "0" }}
+                                >
+                                  {r[key]}
+                                </p>
+                              );
+                            })
+                          : r}
                       </div>
                     </td>
                   )
                 )}
               </tr>
-            );
-          })}
-        </tbody>
+            </tbody>
+          );
+        })}
       </table>
     </div>
   );
