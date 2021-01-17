@@ -10,8 +10,10 @@ export default function Home({ transactionsByCity }) {
    */
 
   const [summaryData, setsummaryData] = useState([]);
+
   const [regionInfoActive, setRegionInfoActive] = useState("Suomi");
   const [loading, setLoading] = useState(true);
+  const [initLoad, setInitLoad] = useState(false);
 
   const onClickHandler = (e) => {
     setRegionInfoActive(e.target.id);
@@ -19,30 +21,39 @@ export default function Home({ transactionsByCity }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      /* let res2 = await getData("transactionsByRegion");
-      setTransactionsByRegion(res2); */
-
       let res_summaryByAreaCountry = await getData("summaryByArea", {
         type: "country",
       });
 
+      setsummaryData(res_summaryByAreaCountry);
+      setLoading(false);
+      setInitLoad(true);
+    };
+    setLoading(true);
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (initLoad == false) return null;
+    if (initLoad == "complete") return null;
+    const fetchData = async () => {
       let res_summaryByAreaRegion = await getData("summaryByArea", {
         type: "region",
       });
 
-      let res_summaryByAreaCity = await getData("summaryByArea", {
+      /* let res_summaryByAreaCity = await getData("summaryByArea", {
         type: "city",
       });
-      console.log(res_summaryByAreaCity);
+      console.log(res_summaryByAreaCity); */
 
-      //poista huonelukumaara tilasto, koska ei tarpeen esittää InfoViewssä
-
-      setsummaryData([...res_summaryByAreaCountry, ...res_summaryByAreaRegion]);
+      setsummaryData([...summaryData, ...res_summaryByAreaRegion]);
+      setInitLoad("complete");
       setLoading(false);
     };
     setLoading(true);
     fetchData();
-  }, []);
+  }, [initLoad]);
 
   return (
     <div>
@@ -60,8 +71,17 @@ export default function Home({ transactionsByCity }) {
           >
             Tilastoja maakunnittain
           </h5>
+
           {loading == false ? (
-            <Grid data={summaryData} width="100%" onClick={onClickHandler} />
+            <div>
+              <Grid data={summaryData} width="100%" onClick={onClickHandler} />
+
+              {initLoad !== "complete" ? (
+                <div style={{ paddingTop: "100px", fontSize: "2em" }}>
+                  Hetki, ladataan lisää tietoa..
+                </div>
+              ) : null}
+            </div>
           ) : (
             <div
               style={{
@@ -116,19 +136,6 @@ export default function Home({ transactionsByCity }) {
           </div>
         </div>
       </div>
-
-      {/* <div>
-        <h3>Linkit näkymiin:</h3>
-        <div>
-          Postinumero <Link to="/postinumero/53850">53850</Link>
-        </div>
-        <div>
-          Kaupunki <Link to="/kaupunki/Lappeenranta">Lappeenranta</Link>{" "}
-        </div>
-        <div>
-          Kaupunginosa <Link to="/kaupunginosa/Skinnarila">Skinnarila</Link>{" "}
-        </div>
-      </div> */}
     </div>
   );
 }
