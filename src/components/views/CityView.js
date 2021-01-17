@@ -3,10 +3,24 @@ import { useTable, useFilters, useGlobalFilter, useAsyncDebounce } from 'react-t
 import React, { useState, useEffect } from "react";
 import Grid from "../home/Grid";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import getData from "./../../setUp/dataSetUp";
 
 export default function CitytView(props) {
   let { city } = useParams();
   let Sales = findCityData(props.cityData, city).data;
+
+  const [summaryByRooms, setsummaryByRooms] = useState([]);
+  const [summaryData, setsummaryData] = useState([]);
+
+  useEffect(() => {      
+    getData("summaryByRooms", { sales: Sales }).then((summaries) => {
+        setsummaryByRooms(summaries);
+    })
+
+  }, []);
+   
+//   console.log("Sales: ", Sales);
+    // console.log("summaryByRooms: ", summaryByRooms);
 
     // Vakikolumnit kauppatiedoille
     // Todo: siirrä omaan structure-tiedostoon (?)
@@ -336,19 +350,18 @@ export default function CitytView(props) {
       <div className="flex-container">
         <div style={{ width: "100%" }}>
             <h5>Tilastoja huonekohtaisesti</h5>
-            {/* <Grid
-                data={Sales}
+            <Grid
+                data={summaryByRooms}
                 width="100%"
                 onClick={onClickHandler}
-            /> */}
+            />
             <div
               style={{
-                height: "100px",
+                height: "50px",
                 alignContent: "center",
                 verticalAlign: "center",
               }}
             >
-                Gridi tulossa tähän
             </div>
 
             <div style={{ width: "100%" }}>

@@ -30,6 +30,11 @@ export default function Home({ transactionsByCity }) {
         type: "region",
       });
 
+      let res_summaryByAreaCity = await getData("summaryByArea", {
+        type: "city",
+      });
+      console.log(res_summaryByAreaCity);
+
       //poista huonelukumaara tilasto, koska ei tarpeen esittää InfoViewssä
 
       setsummaryData([...res_summaryByAreaCountry, ...res_summaryByAreaRegion]);
