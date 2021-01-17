@@ -162,7 +162,7 @@ const summaryByAreaCreateData = async (data) => {
 
       dataObject = {
         hintaPerNelio: [],
-        huoneLukumaara: [],
+        /*   huoneLukumaara: [], */
         pintaAla: [],
         rakennusvuosi: [],
         velatonHinta: [],
@@ -171,9 +171,9 @@ const summaryByAreaCreateData = async (data) => {
         let dataElement = dataBySize[item];
 
         dataObject.hintaPerNelio.push(parseFloat(dataElement["hintaPerNelio"]));
-        dataObject.huoneLukumaara.push(
+        /* dataObject.huoneLukumaara.push(
           parseFloat(dataElement["huoneLukumaara"])
-        );
+        ); */
         /* dataObject.kerros.push(dataElement[element]["kerros"]); */
         dataObject.pintaAla.push(parseFloat(dataElement["pintaAla"]));
         dataObject.rakennusvuosi.push(parseFloat(dataElement["rakennusvuosi"]));
@@ -184,7 +184,7 @@ const summaryByAreaCreateData = async (data) => {
 
     let dataAll = {
       hintaPerNelio: [],
-      huoneLukumaara: [],
+      /* huoneLukumaara: [], */
       pintaAla: [],
       rakennusvuosi: [],
       velatonHinta: [],
@@ -214,7 +214,7 @@ const summaryByAreaCreateData = async (data) => {
     for (const roomSize in list[item]["data"]) {
       summaryObj = {
         hintaPerNelio: { min: "", avg: "", max: "" },
-        huoneLukumaara: { min: "", avg: "", max: "" },
+        /*  huoneLukumaara: { min: "", avg: "", max: "" }, */
         pintaAla: { min: "", avg: "", max: "" },
         rakennusvuosi: { min: "", avg: "", max: "" },
         velatonHinta: { min: "", avg: "", max: "" },
