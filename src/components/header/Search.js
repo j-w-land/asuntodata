@@ -36,7 +36,7 @@ export default function Search({
     if (cities.length === 0 && zips.length === 0) {
       setSearchResults(null);
     } else {
-      setSearchResults({ Kaupunki: cities, Postinimero: zips });
+      setSearchResults({ Kaupunki: cities, Postinumero: zips });
     }
     setSearching(false);
   }, [searchValue]);
