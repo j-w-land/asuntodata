@@ -246,8 +246,9 @@ const summaryByAreaCreateData = async (data) => {
           property
         );
       }
-      summaryObj["tapahtumatYht"] =
-        list[item]["data"][roomSize]["velatonHinta"].length;
+      summaryObj["tapahtumatYht"] = getFormattedValue(
+        list[item]["data"][roomSize]["velatonHinta"].length
+      );
 
       regionDataObject[roomSize] = summaryObj;
     }
@@ -273,7 +274,10 @@ const getFormattedValue = (value, format = null, attribute = "null") => {
       maximumFractionDigits: 0,
     });
   } else {
-    return Number(value).toFixed(0);
+    return Number(value).toLocaleString("fi-FI", {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    });
   }
 };
 
