@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import Header from "./components/Header";
+import Header from "./components/header/Header";
 import Home from "./components/home/Home";
 import ZipView from "./components/views/ZipView";
 import CityView from "./components/views/CityView";
