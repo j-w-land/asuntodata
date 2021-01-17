@@ -130,7 +130,7 @@ const summaryByArea = async (params) => {
   } else if (params.type === "country") {
     if (summaryByCountryData.length !== 0) return summaryByCountryData;
     //console.log("summaryByArea___________FUNKTIO__DATAHAKU");
-    let data = [{ place: "country", data: data_all_transactions }];
+    let data = [{ place: "Suomi", data: data_all_transactions }];
     let res = await summaryByAreaCreateData(data);
     summaryByCountryData = res;
     return res;

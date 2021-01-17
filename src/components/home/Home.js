@@ -5,15 +5,11 @@ import Grid from "./Grid";
 import InfoView from "./InfoView";
 
 export default function Home({ transactionsByCity }) {
-  // TODO: Siirrä datan haku App.js:ään ja tuo propseissa mitä tarvii tällä sivulla
-  // Tällä hetkellä osa datasta haetaan Sekä App.js:ssä että täällä, joten datan haussa kestää hetki
-  //const cityList = getData("cityList");
-  //const zipsByCity = getData("zipsByCity");
-  const [transactionsByRegion, setTransactionsByRegion] = useState([]);
+  //const [transactionsByRegion, setTransactionsByRegion] = useState([]);
   /* const [transactionsByCity, setTransactionsByCity] = useState([]);
    */
-  const [summaryByRegion, setsummaryByRegion] = useState([]);
-  const [summaryByCountry, setsummaryByCountry] = useState([]);
+
+  const [summaryData, setsummaryData] = useState([]);
   const [regionInfoActive, setRegionInfoActive] = useState("Alue");
   const [loading, setLoading] = useState(true);
 
@@ -26,15 +22,23 @@ export default function Home({ transactionsByCity }) {
       /* let res2 = await getData("transactionsByRegion");
       setTransactionsByRegion(res2); */
 
-      let res = await getData("summaryByArea", { type: "country" });
-      setsummaryByCountry(res);
-      let res2 = await getData("summaryByArea", { type: "region" });
-      setsummaryByRegion(res2);
+      let res_summaryByAreaCountry = await getData("summaryByArea", {
+        type: "country",
+      });
+
+      let res_summaryByAreaRegion = await getData("summaryByArea", {
+        type: "region",
+      });
+
+      setsummaryData([...res_summaryByAreaCountry, ...res_summaryByAreaRegion]);
       setLoading(false);
     };
     setLoading(true);
     fetchData();
   }, []);
+
+  console.log(summaryData);
+  console.log("summaryData________");
 
   return (
     <div>
@@ -53,11 +57,7 @@ export default function Home({ transactionsByCity }) {
             Tilastoja maakunnittain
           </h5>
           {loading == false ? (
-            <Grid
-              data={summaryByRegion}
-              width="100%"
-              onClick={onClickHandler}
-            />
+            <Grid data={summaryData} width="100%" onClick={onClickHandler} />
           ) : (
             <div
               style={{
@@ -83,11 +83,7 @@ export default function Home({ transactionsByCity }) {
             {regionInfoActive}
           </h5>
           {loading == false ? (
-            <InfoView
-              data={summaryByRegion}
-              area={regionInfoActive}
-              width="100%"
-            />
+            <InfoView data={summaryData} area={regionInfoActive} width="100%" />
           ) : (
             <div
               style={{
