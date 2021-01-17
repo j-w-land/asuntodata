@@ -107,14 +107,35 @@ const transactionsByRegion = async () => {
   return list.sort();
 };
 
-const summaryByArea = async (params) => {
-  let data = [];
+let summaryByRegionData = [];
+let summaryByCityData = [];
+let summaryByCountryData = [];
 
+const summaryByArea = async (params) => {
   if (params.type === "region") {
-    data = await getData("transactionsByRegion");
+    if (summaryByRegionData.length !== 0) return summaryByRegionData;
+    let data = await getData("transactionsByRegion");
+    let res = await summaryByAreaCreateData(data);
+    summaryByRegionData = res;
+    return res;
   } else if (params.type === "city") {
-    data = transactionsByCity();
+    if (summaryByCityData.length !== 0) return summaryByCityData;
+    let data = transactionsByCity();
+    let res = await summaryByAreaCreateData(data);
+    summaryByCityData = res;
+    return res;
+  } else if (params.type === "country") {
+    if (summaryByCountryData.length !== 0) return summaryByCountryData;
+    let data = [{ place: "country", data: data_all_transactions }];
+    let res = await summaryByAreaCreateData(data);
+    summaryByCountryData = res;
+    return res;
   }
+  // return empty array if params do not match conditions
+  return [];
+};
+
+const summaryByAreaCreateData = async (data) => {
   let list = [];
 
   let summaryList = [];
@@ -213,9 +234,13 @@ const summaryByArea = async (params) => {
         }
         average = total / listItemElement.length;
 
-        summaryObj[property]["min"] = min;
-        summaryObj[property]["max"] = max;
-        summaryObj[property]["avg"] = average.toFixed(0);
+        summaryObj[property]["min"] = getFormattedValue(min, null, property);
+        summaryObj[property]["max"] = getFormattedValue(max, null, property);
+        summaryObj[property]["avg"] = getFormattedValue(
+          average,
+          null,
+          property
+        );
       }
       summaryObj["tapahtumatYht"] =
         list[item]["data"][roomSize]["velatonHinta"].length;
@@ -226,6 +251,26 @@ const summaryByArea = async (params) => {
   }
 
   return summaryList;
+};
+
+const getFormattedValue = (value, format = null, attribute = "null") => {
+  const formatObject = {
+    null: "",
+    hintaPerNelio: "eur",
+    velatonHinta: "eur",
+  };
+  if (format == null) format = formatObject[attribute];
+
+  if (format == "eur") {
+    return Number(value).toLocaleString("fi-FI", {
+      style: "currency",
+      currency: "EUR",
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
+    });
+  } else {
+    return Number(value).toFixed(0);
+  }
 };
 
 // alusta data aluksi ja tallenna muuttujiin niin ei tarvii suorittaa monta kertaa samaa toimintoa jos voi hyödyntää samaa dataa filterointien yhteydessä.
