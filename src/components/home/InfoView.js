@@ -5,9 +5,8 @@ export default function InfoView({ area, data, width }) {
   console.log(data);
   console.log(area);
 
-  const headers = ["Data", "Yksiöt", "Kaksiot", "Kolmiot", "4h+", "kaikki"];
+  const headers = ["", "Yksiöt", "Kaksiot", "Kolmiot", "4h+", "kaikki"];
 
-  const [dataActiveRegion, setdataActiveRegion] = useState({});
   const [rows, setRows] = useState([]);
 
   useEffect(() => {
@@ -17,7 +16,6 @@ export default function InfoView({ area, data, width }) {
     console.log(areaData);
 
     if (areaData.length == 0) {
-      setdataActiveRegion({});
       return null;
     }
     let tableData = areaData[0].data;
@@ -57,13 +55,33 @@ export default function InfoView({ area, data, width }) {
           </tr>
         </thead>
         <tbody>
-          {rows.map((row) => {
+          {rows.map((row, rowIndex) => {
             console.log(row);
             return (
-              <tr>
-                {row.map((r) => (
-                  <td>{r.avg != undefined ? r.avg : r}</td>
-                ))}
+              <tr key={"regionInfoViewTableRow_" + rowIndex}>
+                {row.map((r, rIndex) =>
+                  //First item is row name -> return row name
+                  rIndex == 0 ? (
+                    <td
+                      key={"regionInfoViewTableRow_" + rowIndex + "_" + rIndex}
+                    >
+                      {r}
+                    </td>
+                  ) : (
+                    // remaining items include data -> loop min, avg, and max values:
+                    <td
+                      key={"regionInfoViewTableRow_" + rowIndex + "_" + rIndex}
+                    >
+                      <div>
+                        {r.min != undefined ? r.min : ""}
+                        <br />
+                        {r.avg != undefined ? r.avg : r}
+                        <br />
+                        {r.max != undefined ? r.max : ""}
+                      </div>
+                    </td>
+                  )
+                )}
               </tr>
             );
           })}
@@ -71,34 +89,4 @@ export default function InfoView({ area, data, width }) {
       </table>
     </div>
   );
-}
-
-{
-  /* <ul className="flex-container">
-        {data.map((e) => (
-          <div className="flex-item-home" key={e.place}>
-            <span className="title"> {e.place}</span>
-            <br />
-            <span> Myydyt: {e.data.tapahtumatYht} kpl</span> <br />
-            <span>
-              {" "}
-              Keskihinta:{" "}
-              {typeof e.data.hintaPerNelio.avg !== "number"
-                ? "-"
-                : e.data.hintaPerNelio.avg.toFixed(0)}{" "}
-              €/m2
-            </span>{" "}
-            <br />
-            <span>
-              {" "}
-              Keskikoko:{" "}
-              {typeof e.data.pintaAla.avg !== "number"
-                ? "-"
-                : e.data.pintaAla.avg.toFixed(0)}{" "}
-              €/m2
-            </span>{" "}
-            <br />
-          </div>
-        ))}
-      </ul> */
 }

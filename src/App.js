@@ -11,20 +11,13 @@ import getData from "./setUp/dataSetUp";
 
 function App() {
   const [transactionsByCity, setTransactionsByCity] = useState([]);
-  const [summaryByRegion, setsummaryByRegion] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getData("transactionsByCity")
-      .then((transactions) => {
-        setTransactionsByCity(transactions);
-      })
-      .then(
-        getData("summaryByArea", { type: "region" }).then((summaries) => {
-          setsummaryByRegion(summaries);
-          setLoading(false);
-        })
-      );
+    getData("transactionsByCity").then((transactions) => {
+      setTransactionsByCity(transactions);
+      setLoading(false);
+    });
   }, []);
 
   if (loading) {
@@ -48,10 +41,7 @@ function App() {
           </Route>
 
           <Route path="/">
-            <Home
-              transactionsByCity={transactionsByCity}
-              summaryByRegion={summaryByRegion}
-            />
+            <Home transactionsByCity={transactionsByCity} />
           </Route>
         </Switch>
       </Router>

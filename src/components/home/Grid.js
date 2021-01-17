@@ -25,7 +25,7 @@ export default function Grid({ data, width, onClick }) {
               Keskihinta:{" "}
               {typeof e.data.kaikki.hintaPerNelio.avg !== "number"
                 ? "-"
-                : e.data.kaikki.hintaPerNelio.avg.toFixed(0)}{" "}
+                : e.data.kaikki.hintaPerNelio.avg}{" "}
               €/m2
             </span>{" "}
             <br />
@@ -34,7 +34,7 @@ export default function Grid({ data, width, onClick }) {
               Keskikoko:{" "}
               {typeof e.data.kaikki.pintaAla.avg !== "number"
                 ? "-"
-                : e.data.kaikki.pintaAla.avg.toFixed(0)}
+                : e.data.kaikki.pintaAla.avg}
               m2
             </span>{" "}
             <br />

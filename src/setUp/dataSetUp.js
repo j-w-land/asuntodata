@@ -112,20 +112,24 @@ let summaryByCityData = [];
 let summaryByCountryData = [];
 
 const summaryByArea = async (params) => {
+  //console.log("summaryByArea___________FUNKTIO");
   if (params.type === "region") {
     if (summaryByRegionData.length !== 0) return summaryByRegionData;
+    //console.log("summaryByArea___________FUNKTIO__DATAHAKU");
     let data = await getData("transactionsByRegion");
     let res = await summaryByAreaCreateData(data);
     summaryByRegionData = res;
     return res;
   } else if (params.type === "city") {
     if (summaryByCityData.length !== 0) return summaryByCityData;
+    //console.log("summaryByArea___________FUNKTIO__DATAHAKU");
     let data = transactionsByCity();
     let res = await summaryByAreaCreateData(data);
     summaryByCityData = res;
     return res;
   } else if (params.type === "country") {
     if (summaryByCountryData.length !== 0) return summaryByCountryData;
+    //console.log("summaryByArea___________FUNKTIO__DATAHAKU");
     let data = [{ place: "country", data: data_all_transactions }];
     let res = await summaryByAreaCreateData(data);
     summaryByCountryData = res;

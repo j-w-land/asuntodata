@@ -4,14 +4,16 @@ import getData from "../../setUp/dataSetUp";
 import Grid from "./Grid";
 import InfoView from "./InfoView";
 
-export default function Home({ transactionsByCity, summaryByRegion }) {
+export default function Home({ transactionsByCity }) {
   // TODO: Siirrä datan haku App.js:ään ja tuo propseissa mitä tarvii tällä sivulla
   // Tällä hetkellä osa datasta haetaan Sekä App.js:ssä että täällä, joten datan haussa kestää hetki
   //const cityList = getData("cityList");
   //const zipsByCity = getData("zipsByCity");
   const [transactionsByRegion, setTransactionsByRegion] = useState([]);
   /* const [transactionsByCity, setTransactionsByCity] = useState([]);
-  const [summaryByRegion, setsummaryByRegion] = useState([]); */
+   */
+  const [summaryByRegion, setsummaryByRegion] = useState([]);
+  const [summaryByCountry, setsummaryByCountry] = useState([]);
   const [regionInfoActive, setRegionInfoActive] = useState("Alue");
   const [loading, setLoading] = useState(true);
 
@@ -21,17 +23,18 @@ export default function Home({ transactionsByCity, summaryByRegion }) {
 
   useEffect(() => {
     const fetchData = async () => {
-      let res2 = await getData("transactionsByRegion");
-      setTransactionsByRegion(res2);
+      /* let res2 = await getData("transactionsByRegion");
+      setTransactionsByRegion(res2); */
 
+      let res = await getData("summaryByArea", { type: "country" });
+      setsummaryByCountry(res);
+      let res2 = await getData("summaryByArea", { type: "region" });
+      setsummaryByRegion(res2);
       setLoading(false);
     };
     setLoading(true);
     fetchData();
   }, []);
-
-  console.log("summaryByRegion____");
-  console.log(summaryByRegion);
 
   return (
     <div>
