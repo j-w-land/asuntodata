@@ -255,6 +255,8 @@ const summaryByAreaCreateData = async (data) => {
     summaryList.push({ place: list[item].place, data: regionDataObject });
   }
 
+  console.log(summaryList);
+
   return summaryList;
 };
 
@@ -266,7 +268,7 @@ const getFormattedValue = (value, format = null, attribute = "null") => {
   };
   if (format == null) format = formatObject[attribute];
 
-  if (format == "eur") {
+  if (format === "eur") {
     return Number(value).toLocaleString("fi-FI", {
       style: "currency",
       currency: "EUR",
@@ -279,6 +281,89 @@ const getFormattedValue = (value, format = null, attribute = "null") => {
       maximumFractionDigits: 0,
     });
   }
+};
+
+// City data propsina sisään, dataa gridille ulos
+const summaryByRooms = async (params) => {
+  let data = params.sales;
+  let roomDataObj = [];
+
+  const roomSizes = ["1", "2", "3", "4"];
+
+  let dataObject = {};
+
+  for (const roomSize in roomSizes) {
+    let dataBySize = data.filter(
+      (e) => e.huoneLukumaara === roomSizes[roomSize]
+    );
+
+    dataObject = {
+      hintaPerNelio: [],
+      huoneLukumaara: [],
+      pintaAla: [],
+      rakennusvuosi: [],
+      velatonHinta: [],
+      kaikki: [],
+    };
+
+    for (const item in dataBySize) {
+      let dataElement = dataBySize[item];
+
+      dataObject.hintaPerNelio.push(parseFloat(dataElement["hintaPerNelio"]));
+      dataObject.huoneLukumaara.push(
+        parseFloat(dataElement["huoneLukumaara"])
+      );
+
+      dataObject.pintaAla.push(parseFloat(dataElement["pintaAla"]));
+      dataObject.rakennusvuosi.push(parseFloat(dataElement["rakennusvuosi"]));
+      dataObject.velatonHinta.push(parseFloat(dataElement["velatonHinta"]));      
+    }
+    
+    roomDataObj.push({
+      place: parseInt(roomSize) + 1 + " huonetta",
+      data: dataObject,
+    });
+  }
+
+  // Generoi "kaikki" gridille
+  for (const roomSizeGroup in roomDataObj) {
+    let regionDataObject = {};
+    let summaryObj = {};
+
+    summaryObj = {
+      hintaPerNelio: { min: "", avg: "", max: "" },
+      pintaAla: { min: "", avg: "", max: "" },
+      rakennusvuosi: { min: "", avg: "", max: "" },
+      velatonHinta: { min: "", avg: "", max: "" },
+      tapahtumatYht: "",
+    };
+
+    for (const dataRow in roomDataObj[roomSizeGroup]["data"]) {      
+
+      let dataRowValues = roomDataObj[roomSizeGroup]["data"][dataRow];
+
+      if(dataRowValues.length !== 0){
+        let min = Math.min(...dataRowValues);
+        let max = Math.max(...dataRowValues);
+        let total = 0;
+        for(var i = 0; i < dataRowValues.length; i++) {
+          total += dataRowValues[i];
+        }
+        let average = total / dataRowValues.length;
+
+        summaryObj[dataRow] =  { 
+          min: getFormattedValue(min, null, dataRow),
+          max: getFormattedValue(max, null, dataRow),
+          avg: getFormattedValue(average, null, dataRow),
+        };
+      } 
+    }
+
+    summaryObj["tapahtumatYht"] = roomDataObj[roomSizeGroup]["data"]["huoneLukumaara"].length;
+    roomDataObj[roomSizeGroup]["data"]["kaikki"] = summaryObj;
+  }
+
+  return roomDataObj;
 };
 
 // alusta data aluksi ja tallenna muuttujiin niin ei tarvii suorittaa monta kertaa samaa toimintoa jos voi hyödyntää samaa dataa filterointien yhteydessä.
@@ -300,4 +385,5 @@ export default async function getData(structure, params) {
   }
 
   if (structure === "summaryByArea") return await summaryByArea(params);
+  if (structure === "summaryByRooms") return await summaryByRooms(params);
 }
