@@ -87,3 +87,7 @@
 .infoViewTable .regionInfoViewTableRow_Title {
   margin-bottom: 10px;
 }
+
+#searchResultList {
+  position: absolute;
+}
