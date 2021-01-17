@@ -4,7 +4,7 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import Button from "react-bootstrap/Button";
-import {Link, } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   return (
@@ -20,7 +20,7 @@ export default function Header() {
               Etusivu
             </Nav.Link>
 
-            <Nav.Link href="#link">Link</Nav.Link>
+            {/* <Nav.Link href="#link">Link</Nav.Link> */}
             <NavDropdown title="Näkymät" id="basic-nav-dropdown">
               <NavDropdown.Item as={Link} to="/postinumero/53850">
                 53850
@@ -31,10 +31,10 @@ export default function Header() {
               <NavDropdown.Item as={Link} to="/kaupunginosa/Skinnarila">
                 Skinnarila
               </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
+              {/* <NavDropdown.Divider /> */}
+              {/* <NavDropdown.Item href="#action/3.4">
                 Separated link
-              </NavDropdown.Item>
+              </NavDropdown.Item> */}
             </NavDropdown>
           </Nav>
           <Form inline>
