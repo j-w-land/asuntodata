@@ -20,6 +20,7 @@ export default function Header() {
   const [searchFormActive, setSearchFormActive] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [searching, setSearching] = useState(false);
+  const [showAllResults, setShowAllResults] = useState(false);
 
   const handleSearchForm = (e) => {
     try {
@@ -31,7 +32,17 @@ export default function Header() {
     }
   };
 
+  // On blurring search field close the result list
   const handleSearchFormBlur = (e) => {
+    try {
+      // If user clicked "Näytä lisää" /"Näytä vähemmän" ->update search result list
+      if (e.relatedTarget.id === "showAllSearchResultsToggle") {
+        setShowAllResults((state) => !state);
+        document.getElementById("searchFormControl").focus();
+        return;
+      }
+    } catch (error) {}
+
     let idString = ["init"];
 
     try {
@@ -41,16 +52,72 @@ export default function Header() {
 
     setSearchFormActive(false);
     setSearchValue("");
+    setShowAllResults(false);
 
     if (idString[0] == "headerLink") {
       history.push(idString[1]);
-    } /* else {
-        
-      } */
+    }
   };
 
   const handleSearchFormClick = (e) => {
     setSearchFormActive(true);
+  };
+
+  const getSearchResultListing = (showAll) => {
+    let keys = Object.keys(searchResults);
+    let resArr = [];
+
+    let limit = 9;
+
+    let index = 0;
+    for (const key in keys) {
+      for (const result in searchResults[keys[key]]) {
+        if (result > limit && showAll === false) {
+          resArr.push(
+            <ListGroup.Item
+              key={"searchResult-show-more"}
+              id={"showAllSearchResultsToggle"}
+              as={Link}
+              to={""}
+            >
+              Näytä lisää..
+            </ListGroup.Item>
+          );
+          return resArr;
+        }
+
+        resArr.push(
+          <ListGroup.Item
+            as={Link}
+            id={`headerLink:/${keys[key].toLowerCase()}/${
+              searchResults[keys[key]][result]
+            }`}
+            to={`/${keys[key].toLowerCase()}/${
+              searchResults[keys[key]][result]
+            }`}
+            key={"searchResult-" + result}
+          >
+            {keys[key] + " : " + searchResults[keys[key]][result]}
+          </ListGroup.Item>
+        );
+      }
+
+      index = index + 1;
+    }
+    if (resArr.length > 10) {
+      resArr.push(
+        <ListGroup.Item
+          key={"searchResult-show-more"}
+          id={"showAllSearchResultsToggle"}
+          as={Link}
+          to={""}
+        >
+          Näytä vähemmän..
+        </ListGroup.Item>
+      );
+    }
+
+    return resArr;
   };
 
   return (
@@ -93,6 +160,7 @@ export default function Header() {
                 value={searchValue}
                 onBlur={handleSearchFormBlur}
                 onClick={handleSearchFormClick}
+                id="searchFormControl"
               />
 
               <Search
@@ -119,18 +187,7 @@ export default function Header() {
                     Ei tuloksia
                   </ListGroup.Item>
                 ) : (
-                  Object.keys(searchResults).map((key) =>
-                    searchResults[key].map((e, i) => (
-                      <ListGroup.Item
-                        as={Link}
-                        id={`headerLink:/${key.toLowerCase()}/${e}`}
-                        to={`/${key.toLowerCase()}/${e}`}
-                        key={"searchResult-" + i}
-                      >
-                        {key + " : " + e}
-                      </ListGroup.Item>
-                    ))
-                  )
+                  getSearchResultListing(showAllResults).map((e) => e)
                 )}
               </ListGroup>
             )}
