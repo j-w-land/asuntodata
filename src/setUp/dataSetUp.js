@@ -92,16 +92,14 @@ const transactionsByZip = () => {
   for (const item in cityListData) {
     let dataElement = cityListData[item].data;
     let matchesRes = [];
+    
     for (const element in dataElement) {
       let matches = data_all_transactions.filter(
         (e) => e.postinumero === dataElement[element].postinumero
       );
-      for (const match in matches) {
-        matchesRes.push(matches[match]);
-      }
-    }
-
-    list.push({ place: cityListData[item].place, data: matchesRes });
+      
+      list.push({ place: dataElement[element].postinumero, data: matches });
+    } 
   }
 
   return list.sort();

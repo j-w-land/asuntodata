@@ -25,6 +25,7 @@ export default function ZipView(props) {
 
   // Haetaan listalta oikean postinumeron tiedot
   function findZipData(array, value) {
+    
     return array.find((element) => {
         return element.place === value;
         })
@@ -32,7 +33,7 @@ export default function ZipView(props) {
 
   return (
     <div>
-      <h1 style={{ padding: "50px" }}>{zip}</h1>
+      <h1 style={{ padding: "50px" }}>Postinumero: {zip}</h1>
       <div className="flex-container">
         <div style={{ width: "100%" }}>
             <h5>Tilastoja huonekohtaisesti</h5>
