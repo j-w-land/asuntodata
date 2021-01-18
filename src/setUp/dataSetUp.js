@@ -318,11 +318,24 @@ const summaryByRooms = async (params) => {
       dataObject.rakennusvuosi.push(parseFloat(dataElement["rakennusvuosi"]));
       dataObject.velatonHinta.push(parseFloat(dataElement["velatonHinta"]));      
     }
+
+    // 4 tai enemmän huoneita samaan dataan
+    let dataContent = "";
+
+    if (roomSize === "3"){
+      dataContent = {
+        place: "4+ huonetta",
+        data: dataObject,
+      }
+    }
+    else{
+      dataContent = {
+        place: parseInt(roomSize) + 1 + " huonetta",
+        data: dataObject,
+      }
+    }
     
-    roomDataObj.push({
-      place: parseInt(roomSize) + 1 + " huonetta",
-      data: dataObject,
-    });
+    roomDataObj.push(dataContent);
   }
 
   // Generoi "kaikki" gridille
