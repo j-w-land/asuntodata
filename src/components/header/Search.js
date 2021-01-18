@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import zipCodeStructure from "../../assets/data/zipCodeStructure.json";
 
 export default function Search({
@@ -7,7 +7,7 @@ export default function Search({
   setSearching,
 }) {
   useEffect(() => {
-    if (searchValue == "") {
+    if (searchValue === "") {
       setSearchResults([]);
       setSearching(false);
       return null;

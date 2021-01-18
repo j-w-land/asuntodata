@@ -85,6 +85,28 @@ const transactionsByCity = () => {
   return list.sort();
 };
 
+const transactionsByZip = () => {
+  let list = [];
+  let cityListData = zipsByCity();
+
+  for (const item in cityListData) {
+    let dataElement = cityListData[item].data;
+    let matchesRes = [];
+    for (const element in dataElement) {
+      let matches = data_all_transactions.filter(
+        (e) => e.postinumero === dataElement[element].postinumero
+      );
+      for (const match in matches) {
+        matchesRes.push(matches[match]);
+      }
+    }
+
+    list.push({ place: cityListData[item].place, data: matchesRes });
+  }
+
+  return list.sort();
+};
+
 const transactionsByRegion = async () => {
   let list = [];
   let regionListData = zipsByRegion();
@@ -255,7 +277,7 @@ const summaryByAreaCreateData = async (data) => {
     summaryList.push({ place: list[item].place, data: regionDataObject });
   }
 
-  console.log(summaryList);
+  //console.log(summaryList);
 
   return summaryList;
 };
@@ -340,7 +362,6 @@ const summaryByRooms = async (params) => {
 
   // Generoi "kaikki" gridille
   for (const roomSizeGroup in roomDataObj) {
-    let regionDataObject = {};
     let summaryObj = {};
 
     summaryObj = {
@@ -388,6 +409,7 @@ export default async function getData(structure, params) {
   if (structure === "zipsByCity") return zipsByCity();
   if (structure === "zipsByRegion") return zipsByRegion();
   if (structure === "transactionsByCity") return transactionsByCity();
+  if (structure === "transactionsByZip") return transactionsByZip();
   if (structure === "transactionsByRegion") {
     if (transactionsByRegionData.length === 0) {
       transactionsByRegionData = await transactionsByRegion();

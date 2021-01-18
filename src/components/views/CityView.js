@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-import { useTable, useFilters, useGlobalFilter, useAsyncDebounce } from 'react-table'
 import React, { useState, useEffect } from "react";
 import Grid from "../home/Grid";
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -11,7 +10,7 @@ export default function CitytView(props) {
   let Sales = findCityData(props.cityData, city).data;
 
   const [summaryByRooms, setsummaryByRooms] = useState([]);
-  const [apartmentInfoActive, setApartmentInfoActive] = useState("Huonemäärä");
+  const [apartmentInfoActive, setApartmentInfoActive] = useState("Kaikki");
 
   const onClickHandler = (e) => {
     setApartmentInfoActive(e.target.id);
@@ -53,7 +52,7 @@ export default function CitytView(props) {
 
             <div style={{ width: "100%" }}>
                 <h5>{apartmentInfoActive}</h5>
-                <Table sales={Sales} />
+                <Table sales={Sales} rooms={apartmentInfoActive} />
             </div>
             <div
               style={{

@@ -1,20 +1,26 @@
-import { useParams } from "react-router-dom";
 import { useTable, useFilters, useGlobalFilter, useAsyncDebounce } from 'react-table'
-import React, { useState, useEffect } from "react";
-import Grid from "../home/Grid";
+import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import getData from "./../../setUp/dataSetUp";
 
   // Vilkuiltu täältä mallia: https://www.freakyjolly.com/react-table-tutorial/
   export default function Table(props) {
     const data = props.sales;
+    //const rooms = props.rooms;
 
     // Vakikolumnit kauppatiedoille
     const columns = React.useMemo(
         () => [
             {
+                Header: 'Kaupunki',
+                accessor: 'kaupunki',
+            },
+            {
                 Header: 'Kaupunginosa',
                 accessor: 'kaupunginosa',
+            },
+            {
+                Header: 'Postinumero',
+                accessor: 'postinumero',
             },
             {
                 Header: 'Huoneisto',
@@ -163,8 +169,6 @@ import getData from "./../../setUp/dataSetUp";
     function DefaultColumnFilter({
         column: { filterValue, preFilteredRows, setFilter },
     }) {
-        const count = preFilteredRows.length
-
         return (
             <input
                 value={filterValue || ''}
@@ -210,18 +214,8 @@ import getData from "./../../setUp/dataSetUp";
 
     // Filtteri, johon asetetaan numeroarvoina lähtöarvo ja päättymisarvo
     function NumberRangeColumnFilter({
-        column: { filterValue = [], preFilteredRows, setFilter, id },
+        column: { filterValue = [], setFilter },
     }) {
-        const [min, max] = React.useMemo(() => {
-            let min = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
-            let max = preFilteredRows.length ? preFilteredRows[0].values[id] : 0
-            preFilteredRows.forEach(row => {
-                min = Math.min(row.values[id], min)
-                max = Math.max(row.values[id], max)
-            })
-            return [min, max]
-        }, [id, preFilteredRows])
-      
         return (
             <div
                 style={{
@@ -258,6 +252,7 @@ import getData from "./../../setUp/dataSetUp";
           </div>
         )
     }
+    
     /********** FILTTERIT PÄÄTTYY ***********/
   
     // Generoidaan taulu lennossa oikean kokoseksi
