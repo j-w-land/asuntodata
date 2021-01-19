@@ -24,8 +24,7 @@ export default function ZipView(props) {
   }, []);
 
   // Haetaan listalta oikean postinumeron tiedot
-  function findZipData(array, value) {
-    
+  function findZipData(array, value) {    
     return array.find((element) => {
         return element.place === value;
         })
@@ -53,7 +52,7 @@ export default function ZipView(props) {
 
             <div style={{ width: "100%" }}>
                 <h5>{apartmentInfoActive}</h5>
-                <Table sales={Sales} rooms={apartmentInfoActive} />
+                <Table sales={Sales} room={apartmentInfoActive} />
             </div>
             <div
               style={{

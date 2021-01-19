@@ -4,9 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
   // Vilkuiltu täältä mallia: https://www.freakyjolly.com/react-table-tutorial/
   export default function Table(props) {
-    const [data, setData] = useState([]);
-
-    console.log("props.room: ", props.room);
+    const [data, setData] = useState(props.sales);
     
     // Vakikolumnit kauppatiedoille
     const columns = React.useMemo(
@@ -23,12 +21,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
             //     Header: 'Postinumero',
             //     accessor: 'postinumero',
             // },
-            {
-                Header: 'Huonelukumäärä',
-                accessor: 'huoneLukumaara',
-                Filter: SelectColumnFilter,
-                filter: 'equals'
-            },
+            // {
+            //     Header: 'Huonelukumäärä',
+            //     accessor: 'huoneLukumaara',
+            //     Filter: SelectColumnFilter,
+            //     filter: 'equals'
+            // },
             {
                 Header: 'Huoneisto',
                 accessor: 'huoneisto',
@@ -171,12 +169,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
             salesData = props.sales.filter(
                 (e) => e.huoneLukumaaraV2 === roomInfo);
         }
-
-        console.log("salesData: ", salesData);
         
         setData(salesData);
-
-    }, []);
+    }, [props.room]);
 
     /********** FILTTERIT ***********/
     // https://codesandbox.io/s/github/tannerlinsley/react-table/tree/master/examples/filtering?file=/src/App.js:6247-6319
@@ -298,13 +293,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
             />
           </div>
         )
-    }
-    
+    }    
     /********** FILTTERIT PÄÄTTYY ***********/
   
     // Generoidaan taulu lennossa oikean kokoseksi
     return (
-      <table className="table" {...getTableProps()}>
+        <table className="table" {...getTableProps()}>
             <thead>
                 <tr>
                     <th

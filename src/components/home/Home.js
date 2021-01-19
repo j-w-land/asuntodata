@@ -5,9 +5,6 @@ import Grid from "./Grid";
 import InfoView from "./InfoView";
 
 export default function Home({ transactionsByCity }) {
-  //const [transactionsByRegion, setTransactionsByRegion] = useState([]);
-  /* const [transactionsByCity, setTransactionsByCity] = useState([]);
-   */
 
   const [summaryData, setsummaryData] = useState([]);
 
@@ -41,11 +38,6 @@ export default function Home({ transactionsByCity }) {
       let res_summaryByAreaRegion = await getData("summaryByArea", {
         type: "region",
       });
-
-      /* let res_summaryByAreaCity = await getData("summaryByArea", {
-        type: "city",
-      });
-      console.log(res_summaryByAreaCity); */
 
       setsummaryData([...summaryData, ...res_summaryByAreaRegion]);
       setInitLoad("complete");
