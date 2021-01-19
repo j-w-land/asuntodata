@@ -31,7 +31,7 @@ export default function InfoView({ area, data, width }) {
   }, [area]);
 
   return (
-    <div style={{ width: width }}>
+    <div style={{ width: width, marginLeft: "10px" }}>
       <table className="infoViewTable" style={{ width: "100%" }}>
         <thead>
           <tr key={"InfoViewHeader_header_tr"}>
