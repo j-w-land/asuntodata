@@ -3,12 +3,8 @@ import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
-import DropdownButton from "react-bootstrap/DropdownButton";
 import ListGroup from "react-bootstrap/ListGroup";
 
-import InputGroup from "react-bootstrap/InputGroup";
-import Button from "react-bootstrap/Button";
-import { Dropdown } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import Search from "./Search";
@@ -54,7 +50,7 @@ export default function Header() {
     setSearchValue("");
     setShowAllResults(false);
 
-    if (idString[0] == "headerLink") {
+    if (idString[0] === "headerLink") {
       history.push(idString[1]);
     }
   };
@@ -172,7 +168,7 @@ export default function Header() {
 
             {searchFormActive && searching && (
               <ListGroup id="searchResultList">
-                {searching == true ? (
+                {searching === true ? (
                   <ListGroup.Item key={"searchResult-searching"}>
                     Hakee
                   </ListGroup.Item>

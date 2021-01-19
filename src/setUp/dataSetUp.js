@@ -85,6 +85,26 @@ const transactionsByCity = () => {
   return list.sort();
 };
 
+const transactionsByZip = () => {
+  let list = [];
+  let cityListData = zipsByCity();
+
+  for (const item in cityListData) {
+    let dataElement = cityListData[item].data;
+    let matchesRes = [];
+    
+    for (const element in dataElement) {
+      let matches = data_all_transactions.filter(
+        (e) => e.postinumero === dataElement[element].postinumero
+      );
+      
+      list.push({ place: dataElement[element].postinumero, data: matches });
+    } 
+  }
+
+  return list.sort();
+};
+
 const transactionsByRegion = async () => {
   let list = [];
   let regionListData = zipsByRegion();
@@ -255,7 +275,7 @@ const summaryByAreaCreateData = async (data) => {
     summaryList.push({ place: list[item].place, data: regionDataObject });
   }
 
-  console.log(summaryList);
+  //console.log(summaryList);
 
   return summaryList;
 };
@@ -318,16 +338,28 @@ const summaryByRooms = async (params) => {
       dataObject.rakennusvuosi.push(parseFloat(dataElement["rakennusvuosi"]));
       dataObject.velatonHinta.push(parseFloat(dataElement["velatonHinta"]));      
     }
+
+    // 4 tai enemmän huoneita samaan dataan
+    let dataContent = "";
+
+    if (roomSize === "3"){
+      dataContent = {
+        place: "4+ huonetta",
+        data: dataObject,
+      }
+    }
+    else{
+      dataContent = {
+        place: parseInt(roomSize) + 1 + " huonetta",
+        data: dataObject,
+      }
+    }
     
-    roomDataObj.push({
-      place: parseInt(roomSize) + 1 + " huonetta",
-      data: dataObject,
-    });
+    roomDataObj.push(dataContent);
   }
 
   // Generoi "kaikki" gridille
   for (const roomSizeGroup in roomDataObj) {
-    let regionDataObject = {};
     let summaryObj = {};
 
     summaryObj = {
@@ -375,6 +407,7 @@ export default async function getData(structure, params) {
   if (structure === "zipsByCity") return zipsByCity();
   if (structure === "zipsByRegion") return zipsByRegion();
   if (structure === "transactionsByCity") return transactionsByCity();
+  if (structure === "transactionsByZip") return transactionsByZip();
   if (structure === "transactionsByRegion") {
     if (transactionsByRegionData.length === 0) {
       transactionsByRegionData = await transactionsByRegion();

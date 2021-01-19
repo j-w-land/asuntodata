@@ -11,11 +11,19 @@ import getData from "./setUp/dataSetUp";
 
 function App() {
   const [transactionsByCity, setTransactionsByCity] = useState([]);
+  const [transactionsByZip, setTransactionsByZip] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getData("transactionsByCity").then((transactions) => {
       setTransactionsByCity(transactions);
+      setLoading(false);
+    });
+  }, []);
+
+  useEffect(() => {
+    getData("transactionsByZip").then((transactions) => {
+      setTransactionsByZip(transactions);
       setLoading(false);
     });
   }, []);
@@ -31,7 +39,7 @@ function App() {
         <div className="site-container">
           <Switch>
             <Route path="/postinumero/:zip">
-              <ZipView />
+              <ZipView zipData={transactionsByZip}/>
             </Route>
             <Route path="/kaupunki/:city">
               <CityView cityData={transactionsByCity} />

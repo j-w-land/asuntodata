@@ -6,9 +6,9 @@ export default function InfoView({ area, data, width }) {
   const [rows, setRows] = useState([]);
 
   useEffect(() => {
-    let areaData = data.filter((d) => d.place == area);
+    let areaData = data.filter((d) => d.place === area);
 
-    if (areaData.length == 0) {
+    if (areaData.length === 0) {
       return null;
     }
     let tableData = areaData[0].data;
@@ -57,7 +57,7 @@ export default function InfoView({ area, data, width }) {
               <tr key={"InfoViewTableRow_RowNames" + rowIndex}>
                 {row.map((r, rIndex) =>
                   //First item is row name -> return row name and min/avg/max rows
-                  rIndex == 0 ? (
+                  rIndex === 0 ? (
                     <td key={"InfoViewTableRow_" + rowIndex + "_" + rIndex}>
                       <div
                         key={"InfoViewTableRow_div" + rowIndex + "_" + rIndex}

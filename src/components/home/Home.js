@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import getData from "../../setUp/dataSetUp";
 import Grid from "./Grid";
 import InfoView from "./InfoView";
@@ -35,8 +35,8 @@ export default function Home({ transactionsByCity }) {
   }, []);
 
   useEffect(() => {
-    if (initLoad == false) return null;
-    if (initLoad == "complete") return null;
+    if (initLoad === false) return null;
+    if (initLoad === "complete") return null;
     const fetchData = async () => {
       let res_summaryByAreaRegion = await getData("summaryByArea", {
         type: "region",
@@ -72,7 +72,7 @@ export default function Home({ transactionsByCity }) {
             Tilastoja maakunnittain
           </h5>
 
-          {loading == false ? (
+          {loading === false ? (
             <div>
               <Grid data={summaryData} width="100%" onClick={onClickHandler} />
 
@@ -106,7 +106,7 @@ export default function Home({ transactionsByCity }) {
           >
             {regionInfoActive}
           </h5>
-          {loading == false ? (
+          {loading === false ? (
             <InfoView data={summaryData} area={regionInfoActive} width="100%" />
           ) : (
             <div
