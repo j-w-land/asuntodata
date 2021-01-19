@@ -1,26 +1,33 @@
 import { useTable, useFilters, useGlobalFilter, useAsyncDebounce } from 'react-table'
-import React from "react";
+import React, { useState, useEffect } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
   // Vilkuiltu täältä mallia: https://www.freakyjolly.com/react-table-tutorial/
   export default function Table(props) {
-    const data = props.sales;
-    //const rooms = props.rooms;
+    const [data, setData] = useState([]);
 
+    console.log("props.room: ", props.room);
+    
     // Vakikolumnit kauppatiedoille
     const columns = React.useMemo(
         () => [
-            {
-                Header: 'Kaupunki',
-                accessor: 'kaupunki',
-            },
+            // {
+            //     Header: 'Kaupunki',
+            //     accessor: 'kaupunki',
+            // },
             {
                 Header: 'Kaupunginosa',
                 accessor: 'kaupunginosa',
             },
+            // {
+            //     Header: 'Postinumero',
+            //     accessor: 'postinumero',
+            // },
             {
-                Header: 'Postinumero',
-                accessor: 'postinumero',
+                Header: 'Huonelukumäärä',
+                accessor: 'huoneLukumaara',
+                Filter: SelectColumnFilter,
+                filter: 'equals'
             },
             {
                 Header: 'Huoneisto',
@@ -35,8 +42,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
             {
                 Header: 'Pinta-ala',
                 accessor: 'pintaAla',
-                Filter: NumberRangeColumnFilter,
-                filter: 'between',
+                // Rangefiltteri ei toimi tässä, koska Suomilocale floateille on pilkku eikä piste.
+                // JavaScript ei osaa tehdä käännöstä oikein, enkä tähän väliin ehdi asiaa selvitellä.
+                // Filter: NumberRangeColumnFilter,
+                // filter: 'between',
+                Filter: SelectColumnFilter,
+                filter: 'equals',
             },
             {
                 Header: 'Velaton hinta',
@@ -59,6 +70,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
             {
                 Header: 'Kerros',
                 accessor: 'kerros',
+                Filter: SelectColumnFilter,
+                filter: 'equals',
             },
             {
                 Header: 'Hissi',
@@ -94,6 +107,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
                 const rowValue = row.values[id]
                 return rowValue !== undefined
                     ? String(rowValue)
+                        .split(',')[0]
                         .toLowerCase()
                         .startsWith(String(filterValue).toLowerCase())
                     : true
@@ -105,7 +119,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
     const defaultColumn = React.useMemo(
         () => ({
-            // Let's set up our default Filter UI
+            // Vakiofiltteri kentille
             Filter: DefaultColumnFilter,
         }),
         []
@@ -130,6 +144,39 @@ import 'bootstrap/dist/css/bootstrap.min.css';
     useFilters,
     useGlobalFilter,
     );
+
+    useEffect(() => {
+        let roomInfo = "Kaikki";
+        let salesData = [];
+
+        // Tee asuntokoon filtteröintiparametri
+        if(props.room === "Yksiöt"){
+            roomInfo = "1";
+        }
+        else if(props.room === "Kaksiot"){
+            roomInfo = "2";
+        }
+        else if(props.room === "Kolmiot"){
+            roomInfo = "3";
+        }
+        else if(props.room === "4+ huonetta"){
+            roomInfo = "4+";
+        }
+        
+        // Filtteröi parametrin mukaan dataa
+        if (roomInfo === "Kaikki"){
+            salesData = props.sales;
+        }
+        else{
+            salesData = props.sales.filter(
+                (e) => e.huoneLukumaaraV2 === roomInfo);
+        }
+
+        console.log("salesData: ", salesData);
+        
+        setData(salesData);
+
+    }, []);
 
     /********** FILTTERIT ***********/
     // https://codesandbox.io/s/github/tannerlinsley/react-table/tree/master/examples/filtering?file=/src/App.js:6247-6319
@@ -226,7 +273,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
                 value={filterValue[0] || ''}
                 type="number"
                 onChange={e => {
-                    const val = e.target.value
+                    const val = e.target.value;
                     setFilter((old = []) => [val ? parseInt(val, 10) : undefined, old[1]])
                 }}
                 placeholder={`Mistä`}
@@ -240,7 +287,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
                 value={filterValue[1] || ''}
                 type="number"
                 onChange={e => {
-                    const val = e.target.value
+                    const val = e.target.value;
                     setFilter((old = []) => [old[0], val ? parseInt(val, 10) : undefined])
                 }}
                 placeholder={`Mihin`}

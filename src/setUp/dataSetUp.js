@@ -339,10 +339,27 @@ const summaryByRooms = async (params) => {
       dataObject.velatonHinta.push(parseFloat(dataElement["velatonHinta"]));      
     }
 
-    // 4 tai enemmän huoneita samaan dataan
     let dataContent = "";
 
-    if (roomSize === "3"){
+    if (roomSize === "0"){
+      dataContent = {
+        place: "Yksiöt",
+        data: dataObject,
+      }
+    }
+    else if (roomSize === "1"){
+      dataContent = {
+        place: "Kaksiot",
+        data: dataObject,
+      }
+    }
+    else if (roomSize === "2"){
+      dataContent = {
+        place: "Kolmiot",
+        data: dataObject,
+      }
+    }
+    else if (roomSize === "3"){
       dataContent = {
         place: "4+ huonetta",
         data: dataObject,

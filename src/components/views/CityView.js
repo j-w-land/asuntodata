@@ -52,7 +52,7 @@ export default function CitytView(props) {
 
             <div style={{ width: "100%" }}>
                 <h5>{apartmentInfoActive}</h5>
-                <Table sales={Sales} rooms={apartmentInfoActive} />
+                <Table sales={Sales} room={apartmentInfoActive} />
             </div>
             <div
               style={{
