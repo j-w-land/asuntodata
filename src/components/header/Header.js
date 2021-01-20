@@ -124,29 +124,7 @@ export default function Header() {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
-            <Nav.Link as={Link} to="/">
-              Etusivu
-            </Nav.Link>
-
-            <NavDropdown title="Näkymät" id="basic-nav-dropdown">
-              <NavDropdown.Item as={Link} to="/postinumero/53850">
-                53850
-              </NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/kaupunki/Lappeenranta">
-                Lappeenranta
-              </NavDropdown.Item>
-              <NavDropdown.Item as={Link} to="/kaupunginosa/Skinnarila">
-                Skinnarila
-              </NavDropdown.Item>
-              {/* <NavDropdown.Divider /> */}
-              {/* <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item> */}
-            </NavDropdown>
-          </Nav>
-
-          <div>
+          <div style={{ marginRight: "35%", marginLeft: "35%" }}>
             <Form inline>
               <FormControl
                 onChange={handleSearchForm}
