@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+
 import getData from "../../setUp/dataSetUp";
 import Grid from "./Grid";
 import InfoView from "./InfoView";
+import TableByCity from "./TableByCity";
 
 export default function Home({ transactionsByCity }) {
-
   const [summaryData, setsummaryData] = useState([]);
 
   const [regionInfoActive, setRegionInfoActive] = useState("Suomi");
@@ -116,16 +116,21 @@ export default function Home({ transactionsByCity }) {
       </div>
 
       <div style={{ height: "300px", margin: "30px" }}>
-        <div style={{ maxHeight: "300px", width: "33%" }}>
-          <h6>Kauppamäärät kaupungeittain</h6>
-          <div style={{ maxHeight: "280px", overflowY: "scroll" }}>
+        <div style={{ maxHeight: "500", width: "50%" }}>
+          <h6>{regionInfoActive} - kaupat kaupingittain</h6>
+          {/* <div style={{ maxHeight: "280px", overflowY: "scroll" }}>
             {transactionsByCity.map((e) => (
               <div onClick={onClickHandler} key={e.place}>
                 <Link to={`kaupunki/${e.place}`}> {e.place}: </Link>{" "}
                 {e.data.length}
               </div>
             ))}
-          </div>
+          </div> */}
+          <TableByCity
+            area={regionInfoActive}
+            data={transactionsByCity}
+            onClickHandler={onClickHandler}
+          />
         </div>
       </div>
     </div>
