@@ -307,8 +307,16 @@ const getFormattedValue = (value, format = null, attribute = "null") => {
 const summaryByRooms = async (params) => {
   let data = params.sales;
   let roomDataObj = [];
+  let allRoomsDataObj = {
+    hintaPerNelio: [],
+    huoneLukumaara: [],
+    pintaAla: [],
+    rakennusvuosi: [],
+    velatonHinta: [],
+    kaikki: [],
+  };
 
-  const roomSizes = ["1", "2", "3", "4"];
+  const roomSizes = ["1", "2", "3", "4", "Kaikki"];
 
   let dataObject = {};
 
@@ -331,12 +339,18 @@ const summaryByRooms = async (params) => {
 
       dataObject.hintaPerNelio.push(parseFloat(dataElement["hintaPerNelio"]));
       dataObject.huoneLukumaara.push(
-        parseFloat(dataElement["huoneLukumaara"])
-      );
-
+        parseFloat(dataElement["huoneLukumaara"]));
       dataObject.pintaAla.push(parseFloat(dataElement["pintaAla"]));
       dataObject.rakennusvuosi.push(parseFloat(dataElement["rakennusvuosi"]));
       dataObject.velatonHinta.push(parseFloat(dataElement["velatonHinta"]));      
+
+      // Add all info to "kaikki"
+      allRoomsDataObj.hintaPerNelio.push(parseFloat(dataElement["hintaPerNelio"]));
+      allRoomsDataObj.huoneLukumaara.push(
+        parseFloat(dataElement["huoneLukumaara"]));
+      allRoomsDataObj.pintaAla.push(parseFloat(dataElement["pintaAla"]));
+      allRoomsDataObj.rakennusvuosi.push(parseFloat(dataElement["rakennusvuosi"]));
+      allRoomsDataObj.velatonHinta.push(parseFloat(dataElement["velatonHinta"]));
     }
 
     let dataContent = "";
@@ -367,13 +381,15 @@ const summaryByRooms = async (params) => {
     }
     else{
       dataContent = {
-        place: parseInt(roomSize) + 1 + " huonetta",
-        data: dataObject,
+        place: "Kaikki asunnot",
+        data: allRoomsDataObj,
       }
     }
     
     roomDataObj.push(dataContent);
   }
+
+  console.log("roomDataObj: ", roomDataObj);
 
   // Generoi "kaikki" gridille
   for (const roomSizeGroup in roomDataObj) {
