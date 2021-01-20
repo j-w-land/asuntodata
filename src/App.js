@@ -45,7 +45,7 @@ function App() {
               <CityView cityData={transactionsByCity} />
             </Route>
             <Route path="/kaupunginosa/:district">
-              <DistrictView />
+              <DistrictView cityData={transactionsByCity}/>
             </Route>
 
             <Route path="/">
