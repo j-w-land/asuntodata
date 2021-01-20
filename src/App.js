@@ -53,6 +53,10 @@ function App() {
             </Route>
           </Switch>
         </div>
+        <div className="footer">
+          <p>Data haettu 9.1.2021 @ asuntojen.hintatiedot.fi</p>
+          <p>Team KooHoo</p>
+          </div>
       </Router>
     </div>
   );

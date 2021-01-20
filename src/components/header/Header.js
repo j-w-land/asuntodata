@@ -124,7 +124,7 @@ export default function Header() {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <div style={{ marginRight: "35%", marginLeft: "35%" }}>
+          <div style={{ marginLeft: "10px" }}>
             <Form inline>
               <FormControl
                 onChange={handleSearchForm}
