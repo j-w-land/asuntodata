@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+import { Link } from "react-router-dom";
 import getData from "../../setUp/dataSetUp";
 import Grid from "./Grid";
 import InfoView from "./InfoView";
@@ -12,9 +12,15 @@ export default function Home({ transactionsByCity }) {
   const [regionActiveCityList, setRegionActiveCityList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [initLoad, setInitLoad] = useState(false);
+  const [cityTableInfo, setCityTableInfo] = useState("TESTII");
 
   const onClickHandler = (e) => {
     setRegionInfoActive(e.target.id);
+  };
+  const onClickHandlerCityTable = (e) => {
+    console.log(e);
+    console.log("onClickHandlerCityTable");
+    setCityTableInfo(e.indexValue);
   };
 
   useEffect(() => {
@@ -159,23 +165,40 @@ export default function Home({ transactionsByCity }) {
         </div>
       </div>
 
-      <div style={{ height: "300px", margin: "30px" }}>
-        <div style={{ maxHeight: "500", width: "90%" }}>
+      <div
+        className="flex-container"
+        style={{ /* height: "300px", */ margin: "30px" }}
+      >
+        <div style={{ maxHeight: "500", width: "80%" }}>
           <h6>{regionInfoActive} - kaupat kaupingittain</h6>
-          {/* <div style={{ maxHeight: "280px", overflowY: "scroll" }}>
-            {transactionsByCity.map((e) => (
-              <div onClick={onClickHandler} key={e.place}>
-                <Link to={`kaupunki/${e.place}`}> {e.place}: </Link>{" "}
-                {e.data.length}
-              </div>
-            ))}
-          </div> */}
+
           <TableByCity
             area={regionInfoActive}
             data={regionActiveCityList}
             summaryData={summaryData}
-            onClickHandler={onClickHandler}
+            onClickHandler={onClickHandlerCityTable}
           />
+        </div>
+        <div
+          style={{
+            maxHeight: "280px",
+            /* overflowY: "scroll", */ paddingTop: "50px",
+            width: "20%",
+          }}
+        >
+          <div
+            style={{
+              /* overflowY: "scroll", */ paddingTop: "30px",
+            }}
+          >
+            {/* {transactionsByCity.map((e) => (
+            <div onClick={onClickHandler} key={e.place}>
+              <Link to={`kaupunki/${e.place}`}> {e.place}: </Link>{" "}
+              {e.data.length}
+            </div>
+          ))} */}
+            {cityTableInfo}
+          </div>
         </div>
       </div>
     </div>
