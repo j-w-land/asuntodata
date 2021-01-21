@@ -18,10 +18,6 @@ export default function TableByCitySide({
     setShowOthers((state) => !state);
   };
 
-  useEffect(() => {
-    setShowOthers(false);
-  }, [area]);
-
   useEffect(() => {}, [area, summaryData, data]);
 
   console.log(barData);
@@ -29,11 +25,34 @@ export default function TableByCitySide({
   console.log("barData_____________________-");
   console.log(area);
 
-  if (area === "Suomi") {
-    return <div style={{}}>Valitse maakunta</div>;
+  let dataObj = {};
+  let itemsArr = [];
+
+  try {
+    dataObj = data.filter((e) => e.place === area)[0].data.kaikki;
+    console.log(dataObj);
+    console.log("dataObj__________--");
+
+    Object.keys(dataObj).map((key) => {
+      if (dataObj[key].avg !== undefined) {
+        itemsArr.push(key + ": " + dataObj[key].avg);
+      } else {
+        itemsArr.push(key + ": " + dataObj[key]);
+      }
+    });
+    console.log(itemsArr);
+  } catch (error) {
+    return null;
   }
 
-  return <div style={{}}>{area}</div>;
+  return (
+    <div style={{ textAlign: "center" }}>
+      <h6 style={{ paddingTop: "15px" }}>kaupungin keskiarvot:</h6>
+      {itemsArr.map((e) => (
+        <p>{e}</p>
+      ))}
+    </div>
+  );
 }
 
 {

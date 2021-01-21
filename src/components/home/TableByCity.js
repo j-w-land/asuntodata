@@ -89,7 +89,8 @@ export default function TableByCity({
           parseInt(d.data[4].tapahtumatYht.replace(/\s/g, ""));
       }
     });
-    barDataArr.push(objectOthers);
+
+    if (othersArray.length > 0) barDataArr.push(objectOthers);
 
     console.log(barDataArr);
     setBarData(barDataArr);
@@ -109,12 +110,14 @@ export default function TableByCity({
 
   return (
     <div style={{ height: "500px" }}>
-      <div style={{ height: "50px", textAlign: "left", paddingLeft: "10%" }}>
-        <Button variant="info" onClick={showOthersButtonHandler}>
-          {" "}
-          {showOthers === false ? "Näytä muut" : "Palaa takaisin"}{" "}
-        </Button>
-      </div>
+      {barDataOthers.length > 0 && (
+        <div style={{ height: "50px", textAlign: "left", paddingLeft: "10%" }}>
+          <Button variant="info" onClick={showOthersButtonHandler}>
+            {" "}
+            {showOthers === false ? "Näytä muut" : "Palaa takaisin"}{" "}
+          </Button>
+        </div>
+      )}
       <div style={{ height: "350px" }}>
         <ResponsiveBar
           data={showOthers === false ? barData : barDataOthers}

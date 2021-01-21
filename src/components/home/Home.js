@@ -35,6 +35,10 @@ export default function Home({ transactionsByCity }) {
   };
 
   useEffect(() => {
+    setCityTableInfo("");
+  }, [regionInfoActive]);
+
+  useEffect(() => {
     const fetchData = async () => {
       let res_summaryByAreaCountry = await getData("summaryByArea", {
         type: "country",
@@ -181,7 +185,11 @@ export default function Home({ transactionsByCity }) {
         style={{ /* height: "300px", */ margin: "30px" }}
       >
         <div style={{ maxHeight: "500", width: "80%" }}>
-          <h6>{regionInfoActive} - kaupat kaupingittain</h6>
+          <h6>
+            {" "}
+            {regionInfoActive === "Suomi" ? "" : regionInfoActive + " -"} kaupat
+            kaupungeittain
+          </h6>
 
           <TableByCity
             area={regionInfoActive}
