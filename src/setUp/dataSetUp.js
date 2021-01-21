@@ -7,8 +7,10 @@ Dataa filteröitynä käytettäväksi komponenteissa...
 
 */
 
-const cityList = () => {
-  let zipCodeStructureData = zipCodeStructure.data;
+const cityList = (zipCodeStructureData = null) => {
+  if (zipCodeStructureData === null) {
+    zipCodeStructureData = zipCodeStructure.data;
+  }
 
   let list = [];
   for (const item in zipCodeStructureData) {
@@ -20,7 +22,10 @@ const cityList = () => {
   return list.sort();
 };
 
+let regionListData = [];
+
 const regionList = () => {
+  if (regionListData.length > 0) return regionListData;
   let zipCodeStructureData = zipCodeStructure.data;
 
   let list = [];
@@ -29,6 +34,7 @@ const regionList = () => {
   }
 
   list = [...new Set(list)];
+  regionListData = list.sort();
 
   return list.sort();
 };
@@ -63,6 +69,28 @@ const zipsByRegion = () => {
   return list.sort();
 };
 
+let citiesByRegionData = [];
+const citiesByRegion = () => {
+  if (citiesByRegionData.length > 0) return citiesByRegionData;
+  let zipCodeStructureData = zipCodeStructure.data;
+  let list = [];
+  let regionListData = regionList();
+
+  for (const item in regionListData) {
+    let cityList = [];
+    let matches = zipCodeStructureData.filter(
+      (e) => e.maakunta === regionListData[item]
+    );
+    for (const match in matches) {
+      cityList.push(matches[match].kaupunki);
+    }
+    cityList = [...new Set(cityList)];
+    list.push({ place: regionListData[item], data: cityList });
+  }
+  citiesByRegionData = list.sort();
+  return list.sort();
+};
+
 const transactionsByCity = () => {
   let list = [];
   let cityListData = zipsByCity();
@@ -92,14 +120,14 @@ const transactionsByZip = () => {
   for (const item in cityListData) {
     let dataElement = cityListData[item].data;
     let matchesRes = [];
-    
+
     for (const element in dataElement) {
       let matches = data_all_transactions.filter(
         (e) => e.postinumero === dataElement[element].postinumero
       );
-      
+
       list.push({ place: dataElement[element].postinumero, data: matches });
-    } 
+    }
   }
 
   return list.sort();
@@ -338,54 +366,56 @@ const summaryByRooms = async (params) => {
       let dataElement = dataBySize[item];
 
       dataObject.hintaPerNelio.push(parseFloat(dataElement["hintaPerNelio"]));
-      dataObject.huoneLukumaara.push(
-        parseFloat(dataElement["huoneLukumaara"]));
+      dataObject.huoneLukumaara.push(parseFloat(dataElement["huoneLukumaara"]));
       dataObject.pintaAla.push(parseFloat(dataElement["pintaAla"]));
       dataObject.rakennusvuosi.push(parseFloat(dataElement["rakennusvuosi"]));
-      dataObject.velatonHinta.push(parseFloat(dataElement["velatonHinta"]));      
+      dataObject.velatonHinta.push(parseFloat(dataElement["velatonHinta"]));
 
       // Add all info to "kaikki"
-      allRoomsDataObj.hintaPerNelio.push(parseFloat(dataElement["hintaPerNelio"]));
+      allRoomsDataObj.hintaPerNelio.push(
+        parseFloat(dataElement["hintaPerNelio"])
+      );
       allRoomsDataObj.huoneLukumaara.push(
-        parseFloat(dataElement["huoneLukumaara"]));
+        parseFloat(dataElement["huoneLukumaara"])
+      );
       allRoomsDataObj.pintaAla.push(parseFloat(dataElement["pintaAla"]));
-      allRoomsDataObj.rakennusvuosi.push(parseFloat(dataElement["rakennusvuosi"]));
-      allRoomsDataObj.velatonHinta.push(parseFloat(dataElement["velatonHinta"]));
+      allRoomsDataObj.rakennusvuosi.push(
+        parseFloat(dataElement["rakennusvuosi"])
+      );
+      allRoomsDataObj.velatonHinta.push(
+        parseFloat(dataElement["velatonHinta"])
+      );
     }
 
     let dataContent = "";
 
-    if (roomSize === "0"){
+    if (roomSize === "0") {
       dataContent = {
         place: "Yksiöt",
         data: dataObject,
-      }
-    }
-    else if (roomSize === "1"){
+      };
+    } else if (roomSize === "1") {
       dataContent = {
         place: "Kaksiot",
         data: dataObject,
-      }
-    }
-    else if (roomSize === "2"){
+      };
+    } else if (roomSize === "2") {
       dataContent = {
         place: "Kolmiot",
         data: dataObject,
-      }
-    }
-    else if (roomSize === "3"){
+      };
+    } else if (roomSize === "3") {
       dataContent = {
         place: "4+ huonetta",
         data: dataObject,
-      }
-    }
-    else{
+      };
+    } else {
       dataContent = {
         place: "Kaikki asunnot",
         data: allRoomsDataObj,
-      }
+      };
     }
-    
+
     roomDataObj.push(dataContent);
   }
 
@@ -403,28 +433,28 @@ const summaryByRooms = async (params) => {
       tapahtumatYht: "",
     };
 
-    for (const dataRow in roomDataObj[roomSizeGroup]["data"]) {      
-
+    for (const dataRow in roomDataObj[roomSizeGroup]["data"]) {
       let dataRowValues = roomDataObj[roomSizeGroup]["data"][dataRow];
 
-      if(dataRowValues.length !== 0){
+      if (dataRowValues.length !== 0) {
         let min = Math.min(...dataRowValues);
         let max = Math.max(...dataRowValues);
         let total = 0;
-        for(var i = 0; i < dataRowValues.length; i++) {
+        for (var i = 0; i < dataRowValues.length; i++) {
           total += dataRowValues[i];
         }
         let average = total / dataRowValues.length;
 
-        summaryObj[dataRow] =  { 
+        summaryObj[dataRow] = {
           min: getFormattedValue(min, null, dataRow),
           max: getFormattedValue(max, null, dataRow),
           avg: getFormattedValue(average, null, dataRow),
         };
-      } 
+      }
     }
 
-    summaryObj["tapahtumatYht"] = roomDataObj[roomSizeGroup]["data"]["huoneLukumaara"].length;
+    summaryObj["tapahtumatYht"] =
+      roomDataObj[roomSizeGroup]["data"]["huoneLukumaara"].length;
     roomDataObj[roomSizeGroup]["data"]["kaikki"] = summaryObj;
   }
 
@@ -437,6 +467,7 @@ let transactionsByRegionData = [];
 export default async function getData(structure, params) {
   if (structure === "cityList") return cityList();
   if (structure === "regionList") return regionList();
+  if (structure === "citiesByRegion") return citiesByRegion();
   if (structure === "zipsByCity") return zipsByCity();
   if (structure === "zipsByRegion") return zipsByRegion();
   if (structure === "transactionsByCity") return transactionsByCity();

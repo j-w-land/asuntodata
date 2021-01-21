@@ -7,8 +7,9 @@ import TableByCity from "./TableByCity";
 
 export default function Home({ transactionsByCity }) {
   const [summaryData, setsummaryData] = useState([]);
-
+  const [summaryDataByCity, setsummaryDataByCity] = useState([]);
   const [regionInfoActive, setRegionInfoActive] = useState("Suomi");
+  const [regionActiveCityList, setRegionActiveCityList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [initLoad, setInitLoad] = useState(false);
 
@@ -40,12 +41,55 @@ export default function Home({ transactionsByCity }) {
       });
 
       setsummaryData([...summaryData, ...res_summaryByAreaRegion]);
+
+      /* let res_summaryByAreaCity = await getData("summaryByArea", {
+        type: "city",
+      });
+
+      setsummaryDataByCity(res_summaryByAreaCity);
+      console.log(res_summaryByAreaCity);
+      console.log("res_summaryByAreaCity"); */
+
       setInitLoad("complete");
       setLoading(false);
     };
     setLoading(true);
     fetchData();
   }, [initLoad]);
+
+  useEffect(() => {
+    if (initLoad !== "complete") return null;
+    console.log("regionMuuttu");
+
+    const fetchData = async () => {
+      let res_summaryByAreaCity = await getData("summaryByArea", {
+        type: "city",
+      });
+      let cities = [];
+      try {
+        let citiesByRegionRes = await getData("citiesByRegion");
+
+        cities = citiesByRegionRes.filter(
+          (e) => e.place === regionInfoActive
+        )[0].data;
+      } catch (error) {}
+
+      console.log(cities);
+      let data = [];
+      for (const city in cities) {
+        try {
+          console.log(cities[city]);
+          data.push(
+            res_summaryByAreaCity.filter((e) => e.place === cities[city])[0]
+          );
+        } catch (error) {}
+      }
+      console.log(data);
+      console.log("data____________--");
+      setRegionActiveCityList(data);
+    };
+    fetchData();
+  }, [regionInfoActive]);
 
   return (
     <div>
@@ -116,7 +160,7 @@ export default function Home({ transactionsByCity }) {
       </div>
 
       <div style={{ height: "300px", margin: "30px" }}>
-        <div style={{ maxHeight: "500", width: "50%" }}>
+        <div style={{ maxHeight: "500", width: "90%" }}>
           <h6>{regionInfoActive} - kaupat kaupingittain</h6>
           {/* <div style={{ maxHeight: "280px", overflowY: "scroll" }}>
             {transactionsByCity.map((e) => (
@@ -128,7 +172,8 @@ export default function Home({ transactionsByCity }) {
           </div> */}
           <TableByCity
             area={regionInfoActive}
-            data={transactionsByCity}
+            data={regionActiveCityList}
+            summaryData={summaryData}
             onClickHandler={onClickHandler}
           />
         </div>
