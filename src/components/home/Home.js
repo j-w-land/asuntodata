@@ -4,6 +4,7 @@ import getData from "../../setUp/dataSetUp";
 import Grid from "./Grid";
 import InfoView from "./InfoView";
 import TableByCity from "./TableByCity";
+import TableByCitySide from "./TableByCitySide";
 
 export default function Home({ transactionsByCity }) {
   const [summaryData, setsummaryData] = useState([]);
@@ -12,15 +13,25 @@ export default function Home({ transactionsByCity }) {
   const [regionActiveCityList, setRegionActiveCityList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [initLoad, setInitLoad] = useState(false);
-  const [cityTableInfo, setCityTableInfo] = useState("TESTII");
+  const [cityTableInfo, setCityTableInfo] = useState("");
 
   const onClickHandler = (e) => {
+    console.log(e);
+    console.log("onClickHandler");
     setRegionInfoActive(e.target.id);
+    if (e.target.id === "Suomi") {
+      setCityTableInfo("");
+    }
   };
   const onClickHandlerCityTable = (e) => {
     console.log(e);
     console.log("onClickHandlerCityTable");
     setCityTableInfo(e.indexValue);
+  };
+
+  const onClickHandlerCityTableSide = (e) => {
+    console.log(e);
+    console.log("onClickHandlerCityTableSide");
   };
 
   useEffect(() => {
@@ -186,19 +197,27 @@ export default function Home({ transactionsByCity }) {
             width: "20%",
           }}
         >
-          <div
-            style={{
-              /* overflowY: "scroll", */ paddingTop: "30px",
-            }}
-          >
-            {/* {transactionsByCity.map((e) => (
-            <div onClick={onClickHandler} key={e.place}>
-              <Link to={`kaupunki/${e.place}`}> {e.place}: </Link>{" "}
-              {e.data.length}
+          {cityTableInfo !== "" ? (
+            <div
+              style={{
+                /* overflowY: "scroll", */ paddingTop: "30px",
+              }}
+            >
+              <h5>{cityTableInfo}</h5>
+              {
+                <TableByCitySide
+                  area={cityTableInfo}
+                  data={regionActiveCityList}
+                  summaryData={summaryData}
+                  onClickHandler={onClickHandlerCityTableSide}
+                />
+              }
+
+              <Link to={`/kaupunki/${cityTableInfo}`}>
+                Siirry katsomaan kaupungin tietoja
+              </Link>
             </div>
-          ))} */}
-            {cityTableInfo}
-          </div>
+          ) : null}
         </div>
       </div>
     </div>
