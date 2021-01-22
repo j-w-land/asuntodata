@@ -13,6 +13,7 @@ export default function TableByCity({
   const [barDataOthers, setBarDataOthers] = useState([]);
   const [showOthers, setShowOthers] = useState(false);
   const [noTransactionsList, setNoTransactionsList] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const showOthersButtonHandler = (e) => {
     setShowOthers((state) => !state);
@@ -23,27 +24,19 @@ export default function TableByCity({
   }, [area]);
 
   useEffect(() => {
+    if (area === "Suomi") return null;
     let barDataArr = [];
     let noTransactionsListArray = [];
     let othersArray = [];
 
-    console.log("summaryData");
-    console.log(summaryData);
     let totalTransactions = 0;
-    console.log(area);
 
     try {
       let regiondData = summaryData.filter((e) => e.place == area)[0];
       totalTransactions = regiondData.data.kaikki.tapahtumatYht;
 
       totalTransactions = parseInt(totalTransactions.replace(/\s/g, ""));
-    } catch (error) {
-      console.log(error);
-    }
-
-    console.log(totalTransactions);
-
-    console.log("totalTransactions");
+    } catch (error) {}
 
     let objectOthers = {
       place: "muut",
@@ -92,20 +85,20 @@ export default function TableByCity({
 
     if (othersArray.length > 0) barDataArr.push(objectOthers);
 
-    console.log(barDataArr);
     setBarData(barDataArr);
     setBarDataOthers(othersArray);
     setNoTransactionsList(noTransactionsListArray);
-    console.log("barData");
-  }, [area, summaryData, data]);
 
-  console.log(barData);
-  console.log(barDataOthers);
-  console.log("barData_____________________-");
-  console.log(area);
+    setLoading(false);
+  }, [area, summaryData, data]);
 
   if (area === "Suomi") {
     return <div style={{ height: "500px" }}>Valitse maakunta</div>;
+  }
+  if (loading === true) {
+    return (
+      <div style={{ height: "500px" }}>Vain hetki, ladataan lisää tietoa..</div>
+    );
   }
 
   return (
@@ -217,16 +210,18 @@ export default function TableByCity({
           motionDamping={15}
         />
       </div>
-      <div>
-        Kaupungit, joissa ei raportoituja kauppoja:{" "}
-        {noTransactionsList.map((e, index) => {
-          if (index === noTransactionsList.length - 1) {
-            return e + ".";
-          } else {
-            return e + ", ";
-          }
-        })}
-      </div>
+      {noTransactionsList.length > 0 && (
+        <div>
+          Kaupungit, joissa ei raportoituja kauppoja:{" "}
+          {noTransactionsList.map((e, index) => {
+            if (index === noTransactionsList.length - 1) {
+              return e + ".";
+            } else {
+              return e + ", ";
+            }
+          })}
+        </div>
+      )}
     </div>
   );
 }

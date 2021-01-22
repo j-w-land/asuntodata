@@ -20,18 +20,11 @@ export default function TableByCitySide({
 
   useEffect(() => {}, [area, summaryData, data]);
 
-  console.log(barData);
-  console.log(barDataOthers);
-  console.log("barData_____________________-");
-  console.log(area);
-
   let dataObj = {};
   let itemsArr = [];
 
   try {
     dataObj = data.filter((e) => e.place === area)[0].data.kaikki;
-    console.log(dataObj);
-    console.log("dataObj__________--");
 
     Object.keys(dataObj).map((key) => {
       if (dataObj[key].avg !== undefined) {
@@ -40,7 +33,6 @@ export default function TableByCitySide({
         itemsArr.push(key + ": " + dataObj[key]);
       }
     });
-    console.log(itemsArr);
   } catch (error) {
     return null;
   }
@@ -48,8 +40,8 @@ export default function TableByCitySide({
   return (
     <div style={{ textAlign: "center" }}>
       <h6 style={{ paddingTop: "15px" }}>kaupungin keskiarvot:</h6>
-      {itemsArr.map((e) => (
-        <p>{e}</p>
+      {itemsArr.map((e, i) => (
+        <p key={"TableCitySide-" + i}>{e}</p>
       ))}
     </div>
   );

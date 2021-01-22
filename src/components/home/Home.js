@@ -108,8 +108,11 @@ export default function Home({ transactionsByCity }) {
       console.log(data);
       console.log("data____________--");
       setRegionActiveCityList(data);
+      console.log("DATA_HAETTU_ASYNC");
     };
+
     fetchData();
+    console.log("DATA_HAETTU.OUTSIDE");
   }, [regionInfoActive]);
 
   return (
@@ -198,6 +201,7 @@ export default function Home({ transactionsByCity }) {
             onClickHandler={onClickHandlerCityTable}
           />
         </div>
+
         <div
           style={{
             maxHeight: "280px",
