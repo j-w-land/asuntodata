@@ -91,7 +91,11 @@ const citiesByRegion = () => {
   return list.sort();
 };
 
+let transactionsByCityData = [];
 const transactionsByCity = () => {
+  if (transactionsByCityData.length > 0) {
+    return transactionsByCityData;
+  }
   let list = [];
   let cityListData = zipsByCity();
 
@@ -109,7 +113,7 @@ const transactionsByCity = () => {
 
     list.push({ place: cityListData[item].place, data: matchesRes });
   }
-
+  transactionsByCityData = list.sort();
   return list.sort();
 };
 
@@ -418,8 +422,6 @@ const summaryByRooms = async (params) => {
 
     roomDataObj.push(dataContent);
   }
-
-  console.log("roomDataObj: ", roomDataObj);
 
   // Generoi "kaikki" gridille
   for (const roomSizeGroup in roomDataObj) {
