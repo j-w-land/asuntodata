@@ -83,10 +83,18 @@ export default function TableByCity({
       }
     });
 
-    if (othersArray.length > 0) barDataArr.push(objectOthers);
+    if (othersArray.length === 1) {
+      barDataArr.push(othersArray[0]);
+      setBarDataOthers([]);
+    } else if (othersArray.length > 1) {
+      barDataArr.push(objectOthers);
+      setBarDataOthers(othersArray);
+    } else {
+      setBarDataOthers([]);
+    }
 
     setBarData(barDataArr);
-    setBarDataOthers(othersArray);
+
     setNoTransactionsList(noTransactionsListArray);
 
     setLoading(false);
