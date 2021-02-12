@@ -12,25 +12,25 @@ import getData from "./setUp/dataSetUp";
 function App() {
   const [transactionsByCity, setTransactionsByCity] = useState([]);
   const [transactionsByZip, setTransactionsByZip] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
+  /*   useEffect(() => {
     getData("transactionsByCity").then((transactions) => {
       setTransactionsByCity(transactions);
       setLoading(false);
     });
-  }, []);
+  }, []); */
 
-  useEffect(() => {
+  /*  useEffect(() => {
     getData("transactionsByZip").then((transactions) => {
       setTransactionsByZip(transactions);
       setLoading(false);
     });
-  }, []);
+  }, []); */
 
-  if (loading) {
+  /*   if (loading) {
     return "Ladataan tietoja...";
-  }
+  } */
 
   return (
     <div className="App">
@@ -39,13 +39,13 @@ function App() {
         <div className="site-container">
           <Switch>
             <Route path="/postinumero/:zip">
-              <ZipView zipData={transactionsByZip}/>
+              <ZipView zipData={transactionsByZip} />
             </Route>
             <Route path="/kaupunki/:city">
               <CityView cityData={transactionsByCity} />
             </Route>
             <Route path="/kaupunginosa/:district">
-              <DistrictView cityData={transactionsByCity}/>
+              <DistrictView cityData={transactionsByCity} />
             </Route>
 
             <Route path="/">
@@ -56,7 +56,7 @@ function App() {
         <div className="footer">
           <p>Data haettu 9.1.2021 @ asuntojen.hintatiedot.fi</p>
           <p>Team KooHoo</p>
-          </div>
+        </div>
       </Router>
     </div>
   );

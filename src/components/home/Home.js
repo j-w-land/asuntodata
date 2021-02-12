@@ -5,6 +5,7 @@ import Grid from "./Grid";
 import InfoView from "./InfoView";
 import TableByCity from "./TableByCity";
 import TableByCitySide from "./TableByCitySide";
+import RegionHistoryGraph from "./RegionHistoryGraph";
 
 export default function Home({ transactionsByCity }) {
   const [summaryData, setsummaryData] = useState([]);
@@ -105,10 +106,8 @@ export default function Home({ transactionsByCity }) {
           );
         } catch (error) {}
       }
-      console.log(data);
-      console.log("data____________--");
+
       setRegionActiveCityList(data);
-      console.log("DATA_HAETTU_ASYNC");
     };
 
     fetchData();
@@ -119,6 +118,10 @@ export default function Home({ transactionsByCity }) {
     <div>
       <h1 style={{ paddingTop: "50px" }}>Kauppahinnat.fi</h1>
       <h3 style={{ paddingBottom: "50px" }}>Dataa asuntojen hinnoista</h3>
+
+      <div>
+        <RegionHistoryGraph />
+      </div>
 
       <div className="flex-container">
         <div style={{ width: "50%" }}>
