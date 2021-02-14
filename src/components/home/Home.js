@@ -116,10 +116,16 @@ export default function Home({ transactionsByCity }) {
 
   return (
     <div>
-      <h1 style={{ paddingTop: "50px" }}>Kauppahinnat.fi</h1>
+      <h1 style={{ paddingTop: "50px" }}>asuntodata.fi</h1>
       <h3 style={{ paddingBottom: "50px" }}>Dataa asuntojen hinnoista</h3>
 
-      <div>
+      <div
+        style={{
+          marginBottom: "40px",
+          paddingBottom: "20px",
+          borderBottom: "2px solid black",
+        }}
+      >
         <RegionHistoryGraph />
       </div>
 

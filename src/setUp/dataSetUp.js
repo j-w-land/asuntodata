@@ -1,5 +1,6 @@
 import data_all_transactions from "../assets/data/data_all_transactions.json";
 import zipCodeStructure from "../assets/data/zipCodeStructure.json";
+import regionStructure from "../assets/data/regionStructure.json";
 
 /*
 
@@ -30,19 +31,47 @@ const regionList = () => {
 
   let list = [];
   for (const item in zipCodeStructureData) {
-    list.push(zipCodeStructureData[item].maakunta);
+    if (zipCodeStructureData[item].maakunta !== "Ahvenanmaa") {
+      list.push(zipCodeStructureData[item].maakunta);
+    }
   }
 
   list = [...new Set(list)];
   regionListData = list.sort();
 
+  console.log(regionListData);
+  console.log("regionListData_-");
   return list.sort();
 };
 
-const zipsByCity = () => {
+let provinceListData = [];
+
+const provinceList = () => {
+  if (provinceListData.length > 0) return provinceListData;
+
+  let list = Object.keys(regionStructure);
+
+  provinceListData = list.sort();
+  return provinceListData;
+};
+
+const regionsByProvince = () => {
+  return regionStructure;
+};
+
+const zipsByCity = (params) => {
   let zipCodeStructureData = zipCodeStructure.data;
   let list = [];
   let cityListData = cityList();
+
+  if (params !== null) {
+    console.log("zipCodeStructureData_-");
+    console.log(zipCodeStructureData);
+    let result = zipCodeStructureData.filter((obj) => {
+      return obj.kaupunki === params;
+    });
+    return result;
+  }
 
   for (const item in cityListData) {
     let matches = zipCodeStructureData.filter(
@@ -297,10 +326,15 @@ const summaryByAreaCreateData = async (data) => {
           null,
           property
         );
+        summaryObj[property]["minNum"] = min;
+        summaryObj[property]["maxNum"] = max;
+        summaryObj[property]["avgNum"] = average;
       }
       summaryObj["tapahtumatYht"] = getFormattedValue(
         list[item]["data"][roomSize]["velatonHinta"].length
       );
+      summaryObj["tapahtumatYhtNum"] =
+        list[item]["data"][roomSize]["velatonHinta"].length;
 
       regionDataObject[roomSize] = summaryObj;
     }
@@ -470,7 +504,7 @@ export default async function getData(structure, params) {
   if (structure === "cityList") return cityList();
   if (structure === "regionList") return regionList();
   if (structure === "citiesByRegion") return citiesByRegion();
-  if (structure === "zipsByCity") return zipsByCity();
+  if (structure === "zipsByCity") return zipsByCity(params);
   if (structure === "zipsByRegion") return zipsByRegion();
   if (structure === "transactionsByCity") return transactionsByCity();
   if (structure === "transactionsByZip") return transactionsByZip();
@@ -485,4 +519,6 @@ export default async function getData(structure, params) {
 
   if (structure === "summaryByArea") return await summaryByArea(params);
   if (structure === "summaryByRooms") return await summaryByRooms(params);
+  if (structure === "provinceList") return provinceList();
+  if (structure === "regionsByProvince") return regionsByProvince();
 }

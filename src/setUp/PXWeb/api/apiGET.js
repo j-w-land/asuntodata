@@ -1,5 +1,6 @@
 import fetch from "node-fetch";
 
+// palauttaa apin metatiedot
 export default async function pxwebAPIGet() {
   const url =
     "http://pxnet2.stat.fi/PXWeb/api/v1/fi/StatFin/asu/ashi/vv/statfin_ashi_pxt_112q.px";

@@ -7,8 +7,20 @@ import * as fs from "fs";
 console.log("wirteJSON start");
 
 const fetchData = async () => {
-  let years = [2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019];
-  years = [2010];
+  let years = [
+    2010,
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+  ];
+
   let resArray = [];
   for (const year in years) {
     console.log("HAKUVUOSI: " + years[year] + "!!!!!!!!!!!!!!!!!!!!!!!!!!!--");
@@ -37,6 +49,6 @@ const fetchData = async () => {
     writeArray.push(yearObj);
   }
   let data = JSON.stringify(writeArray);
-  fs.writeFileSync("src/setUp/PXWeb/node/regions.json", data);
+  fs.writeFileSync("src/setUp/PXWeb/node/regionsIndex.json", data);
 };
 fetchData();

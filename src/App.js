@@ -12,25 +12,25 @@ import getData from "./setUp/dataSetUp";
 function App() {
   const [transactionsByCity, setTransactionsByCity] = useState([]);
   const [transactionsByZip, setTransactionsByZip] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  /*   useEffect(() => {
+  useEffect(() => {
     getData("transactionsByCity").then((transactions) => {
       setTransactionsByCity(transactions);
       setLoading(false);
     });
-  }, []); */
+  }, []);
 
-  /*  useEffect(() => {
+  useEffect(() => {
     getData("transactionsByZip").then((transactions) => {
       setTransactionsByZip(transactions);
       setLoading(false);
     });
-  }, []); */
+  }, []);
 
-  /*   if (loading) {
+  if (loading) {
     return "Ladataan tietoja...";
-  } */
+  }
 
   return (
     <div className="App">

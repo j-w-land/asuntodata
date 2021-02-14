@@ -1,5 +1,9 @@
 import fetch from "node-fetch";
 
+const url =
+  "http://pxnet2.stat.fi/PXWeb/api/v1/fi/StatFin/asu/ashi/vv/statfin_ashi_pxt_112q.px";
+/* "http://pxnet2.stat.fi/PXWeb/api/v1/fi/StatFin/asu/ashi/nj/statfin_ashi_pxt_112p.px"; */
+
 export default async function pxwebAPI({ years, zips }) {
   const query = [];
   if (years !== undefined) {
@@ -42,9 +46,6 @@ export default async function pxwebAPI({ years, zips }) {
   console.log(years);
   console.log(zips); */
 
-  const url =
-    "http://pxnet2.stat.fi/PXWeb/api/v1/fi/StatFin/asu/ashi/vv/statfin_ashi_pxt_112q.px";
-  /* "http://pxnet2.stat.fi/PXWeb/api/v1/fi/StatFin/asu/ashi/nj/statfin_ashi_pxt_112p.px"; */
   // Default options are marked with *
   const /* response */ runFetch = async () => {
       return await fetch(url, {

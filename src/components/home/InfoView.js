@@ -65,6 +65,7 @@ export default function InfoView({ area, data, width }) {
                         {/* <p> */} {/* {r} <br /> */}
                         {typeof row[1] === "object"
                           ? Object.keys(row[1]).map((key, index) => {
+                              if (index > 3) return null;
                               return (
                                 <p
                                   key={
@@ -92,6 +93,7 @@ export default function InfoView({ area, data, width }) {
                       >
                         {typeof r === "object"
                           ? Object.keys(r).map((key, index) => {
+                              if (index > 3) return null;
                               return (
                                 <p
                                   key={

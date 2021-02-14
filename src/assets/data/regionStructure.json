@@ -1,0 +1,26 @@
+{
+    "Etelä-Suomi": [
+        
+        "Kanta-Häme",
+        "Päijät-Häme",
+        "Uusimaa",
+        "Varsinais-Suomi",
+        "Pirkanmaa"
+    ],
+    "Itä-Suomi": [
+        "Etelä-Savo",
+        "Pohjois-Karjala",
+        "Pohjois-Savo",
+        "Etelä-Karjala",
+        "Kymenlaakso"
+    ],
+
+    "Länsi-Suomi": [
+        "Etelä-Pohjanmaa", "Keski-Pohjanmaa", "Keski-Suomi",   "Pohjanmaa",  "Satakunta"
+    ],
+    "Pohjois-Suomi": [
+        "Kainuu", "Pohjois-Pohjanmaa", "Lappi"
+    ]
+    
+    
+}
