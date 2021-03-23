@@ -1,3 +1,9 @@
+Project:
+
+A school for project for React course.
+The app shows price data of sold apartments in Finland.
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
