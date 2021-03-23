@@ -1,8 +1,9 @@
-Project:
+# Project
 
 A school for project for React course.
 The app shows price data of sold apartments in Finland.
 
+-----------------------------------------------------------------------
 
 # Getting Started with Create React App
 
